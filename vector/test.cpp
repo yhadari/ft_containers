@@ -1,30 +1,26 @@
+// reverse_iterator::base example
 #include <iostream>     // std::cout
-#include <iterator>
-#include <vector>
+#include <iterator>     // std::reverse_iterator
+#include <vector>       // std::vector
 #include "VectorIterator.hpp"
 
 int main () {
-    {
-        int *p1 = new int[4];
-        p1[0] = 10;
-        p1[1] = 20;
-        p1[2] = 30;
+  std::vector<int> myvector;
+  for (int i=0; i<10; i++) myvector.push_back(i);
 
-        int *p2 = new int[4];
-        p2[0] = 11;
-        p2[1] = 21;
-        p2[2] = 31;
-        VectorIterator<int> i1 = p1;
-        VectorIterator<int> i2 = p2;
-        std::cout << i1[0] << std::endl;
-    }
+  typedef std::vector<int>::iterator iter_type;
+  typedef std::vector<int>::reverse_iterator re_type;
 
-    {
-        std::vector<int> p1(4, 10);
-        std::vector<int> p2(4, 20);
-        std::vector<int>::iterator it1 = p1.begin();
-        std::vector<int>::iterator it2 = p2.begin();
-        bool i = it1 >= it2;
-        std::cout << i << std::endl;
-    }
+  std::reverse_iterator<iter_type> rev_begin (myvector.begin());
+  std::reverse_iterator<iter_type> rev_end (myvector.end());
+
+  std::vector<int>::iterator begin (myvector.begin());
+  std::vector<int>::iterator end (myvector.end());
+
+std::cout << "myvector:";
+for (re_type it = rev_end; it != rev_begin; ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
+  return 0;
 }
