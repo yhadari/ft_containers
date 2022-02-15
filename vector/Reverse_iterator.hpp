@@ -6,7 +6,6 @@
 template <class Iterator>
 class Reverse_iterator{
 
-    Iterator _it;
     public:
 
     typedef Iterator                                                iterator_type;
@@ -17,8 +16,42 @@ class Reverse_iterator{
     typedef typename Iterator_traits<Iterator>::reference           reference;
 
     Reverse_iterator();
-    Reverse_iterator(Iterator it) : _it(it){}
-    Reverse_iterator(Reverse_iterator<Iterator> const& copy) : _it(copy._it){}
+    explicit Reverse_iterator(Iterator iterator) : _iterator(iterator){}
+    Reverse_iterator(Reverse_iterator<Iterator> const& copy) : _iterator(copy._iterator){}
+    Iterator&           base(){
+        return this->_iterator;
+    }
+    reference           operator*(){
+        return *(base()-1);
+    }
+    Reverse_iterator    operator+(difference_type n){
+        return Reverse_iterator(base()-n);
+    }
+
+    Reverse_iterator    operator-(difference_type n){
+        return Reverse_iterator(base()+n);
+    }
+
+    Reverse_iterator&   operator++(){
+        return *this = Reverse_iterator(base()-1);
+    }
+
+    Reverse_iterator&   operator--(){
+        return *this = Reverse_iterator(base()+1);
+    }
+
+    Reverse_iterator&   operator+=(difference_type n){
+        return *this = Reverse_iterator(base()-n);
+    }
+
+    Reverse_iterator&   operator-=(difference_type n){
+        return *this = Reverse_iterator(base()+n);
+    }
+    reference           operator->(){
+        return &(operator*());
+    }
+    private:
+    iterator_type _iterator;
 };
 
 #endif

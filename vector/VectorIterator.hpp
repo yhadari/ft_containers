@@ -74,16 +74,16 @@ class VectorIterator : public Iterator<std::random_access_iterator_tag, T>{
     bool                operator>=(VectorIterator const& it){
         return this->_ptr >= it._ptr;
     }
-    T&                  operator*(){
+    reference           operator*(){
         return  *this->_ptr;
     }
-    T&                  operator*(T const& t){
+    reference           operator*(value_type const& t){
         return (*this->_ptr = t);
     }
-    T&                  operator->(){
+    pointer             operator->(){
         return this->_ptr;
     }
-    T&                  operator[](difference_type index){
+    reference           operator[](difference_type  index){
         return this->_ptr[index];
     }
     ~VectorIterator(void){};
