@@ -84,7 +84,7 @@ class VectorIterator : public Iterator<std::random_access_iterator_tag, T>{
         return this->_ptr;
     }
     reference           operator[](difference_type  index) const{
-        return this->_ptr[index];
+        return *(this->_ptr + index);
     }
     ~VectorIterator(void){};
 };
