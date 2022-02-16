@@ -90,4 +90,15 @@ bool    operator>= (const Reverse_iterator<Iterator>& lhs, const Reverse_iterato
     return lhs.base() <= rhs.base();
 }
 
+template <class Iterator>
+Reverse_iterator<Iterator> operator+(typename Reverse_iterator<Iterator>::difference_type n,
+    const Reverse_iterator<Iterator>& rev_it){
+        return rev_it+n;
+}
+template <class Iterator>
+typename Reverse_iterator<Iterator>::difference_type operator-(const Reverse_iterator<Iterator>& lhs,
+    const Reverse_iterator<Iterator>& rhs){
+        return rhs.base()-lhs.base();
+}
+
 #endif
