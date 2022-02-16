@@ -16,7 +16,7 @@ class VectorIterator : public Iterator<std::random_access_iterator_tag, T>{
     typedef typename Iterator<std::random_access_iterator_tag, T>::reference            reference;
     typedef typename Iterator<std::random_access_iterator_tag, T>::iterator_category    iterator_category;
 
-    VectorIterator(T* p): _ptr(p){}
+    VectorIterator(): _ptr(NULL){}
     VectorIterator(VectorIterator const& copy): _ptr(copy._ptr){}
     VectorIterator&     operator=(VectorIterator const& it){
         this->_ptr = it._ptr;
@@ -27,27 +27,27 @@ class VectorIterator : public Iterator<std::random_access_iterator_tag, T>{
         return *this;
     };
     VectorIterator      operator++(int){
-        VectorIterator old_it(*this);
-        this->_ptr++;
-        return old_it;
+        VectorIterator temp = *this;
+        ++(*this);
+        return temp;
     };
     VectorIterator&     operator--(){
         this->_ptr--;
         return *this;
     };
     VectorIterator      operator--(int){
-        VectorIterator old_it(*this);
-        this->_ptr--;
-        return old_it;
+        VectorIterator temp = *this;
+        --(*this);
+        return temp;
     };
     difference_type     operator-(VectorIterator& it){
         difference_type Distance = this->_ptr - it._ptr;
         return Distance;
     };
-    VectorIterator      operator+(difference_type value){
+    VectorIterator      operator+(difference_type value) const{
         return VectorIterator(this->_ptr+value);
     };
-    VectorIterator      operator-(difference_type value){
+    VectorIterator      operator-(difference_type value) const{
         return VectorIterator(this->_ptr-value);
     };
     VectorIterator&     operator+=(difference_type value){
@@ -56,41 +56,41 @@ class VectorIterator : public Iterator<std::random_access_iterator_tag, T>{
     VectorIterator&     operator-=(difference_type value){
         return *this = VectorIterator(this->_ptr-value);
     };
-    bool                operator==(VectorIterator const& it){
+    bool                operator==(VectorIterator const& it) const{
         return  this->_ptr == it._ptr;
     }
-    bool                operator!=(VectorIterator const& it){
+    bool                operator!=(VectorIterator const& it) const{
         return  this->_ptr != it._ptr;
     }
-    bool                operator<(VectorIterator const& it){
+    bool                operator<(VectorIterator const& it) const{
         return this->_ptr < it._ptr;
     }
-    bool                operator>(VectorIterator const& it){
+    bool                operator>(VectorIterator const& it) const{
         return this->_ptr > it._ptr;
     }
-    bool                operator<=(VectorIterator const& it){
+    bool                operator<=(VectorIterator const& it) const{
         return this->_ptr <= it._ptr;
     }
-    bool                operator>=(VectorIterator const& it){
+    bool                operator>=(VectorIterator const& it) const{
         return this->_ptr >= it._ptr;
     }
-    reference           operator*(){
+    reference           operator*() const{
         return  *this->_ptr;
     }
     reference           operator*(value_type const& t){
         return (*this->_ptr = t);
     }
-    pointer             operator->(){
+    pointer             operator->() const{
         return this->_ptr;
     }
-    reference           operator[](difference_type  index){
+    reference           operator[](difference_type  index) const{
         return this->_ptr[index];
     }
     ~VectorIterator(void){};
 };
 
 template<typename T>
-VectorIterator<T>       operator+(typename VectorIterator<T>::difference_type value, VectorIterator<T> it){
-    return it+value;
+VectorIterator<T>       operator+(typename VectorIterator<T>::difference_type value, VectorIterator<T> iter){
+    return iter+value;
 };
 #endif

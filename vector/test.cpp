@@ -5,22 +5,18 @@
 #include "VectorIterator.hpp"
 
 int main () {
-  std::vector<int> myvector;
-  for (int i=0; i<10; i++) myvector.push_back(i);
 
-  typedef std::vector<int>::iterator iter_type;
-  typedef std::vector<int>::reverse_iterator re_type;
+  std::vector<int> v;
+  v.push_back(10);
+  v.push_back(11);
+  v.push_back(12);
+  v.push_back(13);
+  v.push_back(14);
+  std::vector<int>::iterator it_b = v.begin();
+  std::vector<int>::iterator it_e = v.end();
+  std::vector<int>::reverse_iterator r_it_b = v.rbegin();
+  std::vector<int>::reverse_iterator r_it_e = v.rend();
 
-  std::reverse_iterator<iter_type> rev_begin (myvector.begin());
-  std::reverse_iterator<iter_type> rev_end (myvector.end());
-
-  std::vector<int>::iterator begin (myvector.begin());
-  std::vector<int>::iterator end (myvector.end());
-
-std::cout << "myvector:";
-for (re_type it = rev_end; it != rev_begin; ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
-
+  std::cout << r_it_e[-1] << std::endl;
   return 0;
 }
