@@ -93,4 +93,5 @@ template<typename T>
 VectorIterator<T>       operator+(typename VectorIterator<T>::difference_type value, VectorIterator<T> iter){
     return iter+value;
 };
+
 #endif

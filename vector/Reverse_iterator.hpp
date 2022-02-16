@@ -15,7 +15,7 @@ class Reverse_iterator{
     typedef typename Iterator_traits<Iterator>::pointer             pointer;
     typedef typename Iterator_traits<Iterator>::reference           reference;
 
-    Reverse_iterator();
+    Reverse_iterator(): _iterator(NULL){}
     explicit Reverse_iterator(iterator_type iterator) : _iterator(iterator){}
     Reverse_iterator(Reverse_iterator<Iterator> const& copy) : _iterator(copy._iterator){}
     iterator_type       base() const{
@@ -58,6 +58,9 @@ class Reverse_iterator{
     reference           operator[](difference_type n) const{
         return base()[-n-1];
     }
+
+    ~Reverse_iterator(void){}
+    
     private:
     iterator_type _iterator;
 };
