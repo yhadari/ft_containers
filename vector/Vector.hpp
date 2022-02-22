@@ -29,17 +29,26 @@ namespace ft{
         typedef             size_t                                          size_type;
 
         explicit vector(const allocator_type& alloc = allocator_type()){
-            allocator_type allocat(alloc);
-            this->_array = allocat.allocate(0);
+            allocator_type myAllocator(alloc);
+            this->_array = myAllocator.allocate(0);
         }
         explicit vector (size_type n, const value_type& val = value_type(),
                      const allocator_type& alloc = allocator_type()){
-                         std::cout << "1" << std::endl;
+                        allocator_type myAllocator(alloc);
+                        this->_array = myAllocator.allocate(n);
+                        myAllocator.construct(this->_array, val);
                      }
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
                      const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
-                        std::cout << "2" << std::endl;
+                        difference_type distance = last-first;
+                        allocator_type myAllocator(alloc);
+                        this->_array = myAllocator.allocate(distance);
+                        for (difference_type i = 0; i < distance; i++)
+                        {
+                            this->_array[i] = *first;
+                            first++;
+                        }
                      }
     };
 }
