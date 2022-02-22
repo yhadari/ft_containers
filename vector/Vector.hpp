@@ -4,6 +4,7 @@
 #include "VectorIterator.hpp"
 #include "Reverse_iterator.hpp"
 #include "enable_if.hpp"
+#include "is_integral.hpp"
 
 namespace ft{
 
@@ -37,7 +38,7 @@ namespace ft{
                      }
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
-                     const allocator_type& alloc = allocator_type(), typename enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+                     const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
                         std::cout << "2" << std::endl;
                      }
     };
