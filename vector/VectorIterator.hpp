@@ -19,6 +19,7 @@ namespace ft{
         typedef typename iterator<std::random_access_iterator_tag, T>::iterator_category    iterator_category;
     
         VectorIterator(): _ptr(NULL){}
+        VectorIterator(pointer p): _ptr(p){}
         VectorIterator(VectorIterator const& copy): _ptr(copy._ptr){}
         VectorIterator&     operator=(VectorIterator const& it){
             this->_ptr = it._ptr;
