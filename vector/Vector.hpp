@@ -37,7 +37,7 @@ namespace ft{
                         allocator_type myAllocator(alloc);
                         this->_array = myAllocator.allocate(n);
                         myAllocator.construct(this->_array, val);
-                     }
+        }
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
                      const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
@@ -49,7 +49,10 @@ namespace ft{
                             this->_array[i] = *first;
                             first++;
                         }
-                     }
+        }
+        vector (const vector& x){
+            
+        }
     };
 }
 #endif
