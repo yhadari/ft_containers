@@ -11,8 +11,6 @@ namespace ft{
     template < class T, class Alloc = std::allocator<T> >
     class vector{
     
-        T *_array;
-    
         public:
     
         typedef             T                                               value_type;
@@ -29,30 +27,46 @@ namespace ft{
         typedef             size_t                                          size_type;
 
         explicit vector(const allocator_type& alloc = allocator_type()){
-            allocator_type myAllocator(alloc);
-            this->_array = myAllocator.allocate(0);
+            this->_array = this->_myAllocator.allocate(0);
+            this->_size = 0;
+            this->_capasite = 0;
         }
         explicit vector (size_type n, const value_type& val = value_type(),
                      const allocator_type& alloc = allocator_type()){
-                        allocator_type myAllocator(alloc);
-                        this->_array = myAllocator.allocate(n);
-                        myAllocator.construct(this->_array, val);
+                        this->_array = this->_myAllocator.allocate(n);
+                        for (size_t i = 0; i < n; i++)
+                            this->_myAllocator.construct(this->_array+i, val);
+                        this->_size = n;
+                        this->_capasite = n;
         }
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
                      const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
                         difference_type distance = last-first;
-                        allocator_type myAllocator(alloc);
-                        this->_array = myAllocator.allocate(distance);
-                        for (difference_type i = 0; i < distance; i++)
-                        {
-                            this->_array[i] = *first;
-                            first++;
-                        }
+                        this->_array = this->_myAllocator.allocate(distance);
+                        this->_size = distance;
+                        this->_capasite = distance;
+                        for (size_t i = 0; i < distance; i++)
+                            this->_array[i] = *first++;
         }
         vector (const vector& x){
-            
+            *this = x;
         }
+        vector& operator=(vector const& x){
+            for (size_t i = 0; i < x._capasite; i++)
+                this->_array[i] = x._array[i];
+            return *this;
+        }
+        ~vector(){
+            for (size_t i = 0; i < this->_capasite; i++)
+                this->_myAllocator.destroy(this->_array+i)
+        }
+
+        private:
+        T               *_array;
+        allocator_type  _myAllocator;
+        difference_type _size;
+        difference_type _capasite;
     };
 }
 #endif
