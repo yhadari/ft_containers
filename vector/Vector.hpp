@@ -29,7 +29,7 @@ namespace ft{
         explicit vector(const allocator_type& alloc = allocator_type()){
             this->_array = this->_myAllocator.allocate(0);
             this->_size = 0;
-            this->_capasite = 0;
+            this->_capacity = 0;
         }
         explicit vector (size_type n, const value_type& val = value_type(),
                      const allocator_type& alloc = allocator_type()){
@@ -37,7 +37,7 @@ namespace ft{
                         for (size_t i = 0; i < n; i++)
                             this->_myAllocator.construct(this->_array+i, val);
                         this->_size = n;
-                        this->_capasite = n;
+                        this->_capacity = n;
         }
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
@@ -45,31 +45,31 @@ namespace ft{
                         difference_type distance = last-first;
                         this->_array = this->_myAllocator.allocate(distance);
                         this->_size = distance;
-                        this->_capasite = distance;
+                        this->_capacity = distance;
                         for (size_t i = 0; i < distance; i++)
                             this->_array[i] = *first++;
         }
-        vector (const vector& x){
+        vector (const vector& x) : _size(0), _capacity(0){
             *this = x;
         }
         vector& operator=(vector const& x){
             if (!this->_size)
-                this->_array = this->_myAllocator.allocate(x._capasite);
-            for (size_t i = 0; i < x._capasite; i++)
+                this->_array = this->_myAllocator.allocate(x._size);
+            for (size_t i = 0; i < x._size; i++)
                 this->_array[i] = x._array[i];
             return *this;
         }
         ~vector(){
-            for (size_t i = 0; i < this->_capasite; i++)
+            for (size_t i = 0; i < this->_size; i++)
                 this->_myAllocator.destroy(this->_array+i);
-            this->_myAllocator.deallocate(this->_array, this->_capasite);
+            this->_myAllocator.deallocate(this->_array, this->_size);
         }
 
         private:
         T               *_array;
         allocator_type  _myAllocator;
         difference_type _size;
-        difference_type _capasite;
+        difference_type _capacity;
     };
 }
 #endif
