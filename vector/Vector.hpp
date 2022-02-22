@@ -53,18 +53,33 @@ namespace ft{
             *this = x;
         }
         vector& operator=(vector const& x){
-            if (!this->_size)
+            if (!this->_size){
                 this->_array = this->_myAllocator.allocate(x._size);
+                this->_size = x._size;
+                this->_capacity = x._capacity;
+            }
             for (size_t i = 0; i < x._size; i++)
                 this->_array[i] = x._array[i];
             return *this;
         }
         ~vector(){
+            this->_myAllocator.deallocate(this->_array, this->_size);
             for (size_t i = 0; i < this->_size; i++)
                 this->_myAllocator.destroy(this->_array+i);
-            this->_myAllocator.deallocate(this->_array, this->_size);
         }
 
+        iterator begin(){
+            iterator it;
+            it._ptr = this->_array;
+            return it;
+        }
+
+        iterator end(){
+            iterator it;
+            it._ptr = this->_array+this->_size+1;
+            return it;
+        }
+        
         private:
         T               *_array;
         allocator_type  _myAllocator;
