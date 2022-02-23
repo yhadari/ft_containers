@@ -30,6 +30,7 @@ namespace ft{
             this->_array = this->_myAllocator.allocate(0);
             this->_size = 0;
             this->_capacity = 0;
+            this->_resize = 0;
         }
 
         explicit vector (size_type n, const value_type& val = value_type(),
@@ -39,6 +40,7 @@ namespace ft{
                             this->_myAllocator.construct(this->_array+i, val);
                         this->_size = n;
                         this->_capacity = n;
+                        this->_resize = 0;
         }
 
         template <class InputIterator>
@@ -48,17 +50,18 @@ namespace ft{
                         this->_array = this->_myAllocator.allocate(distance);
                         this->_size = distance;
                         this->_capacity = distance;
+                        this->_resize = 0;
                         for (size_t i = 0; i < distance; i++)
                             this->_array[i] = *first++;
         }
 
-        vector (const vector& x) : _size(0), _capacity(0){
+        vector (const vector& x) : _size(0), _capacity(0), _resize(0){
             *this = x;
         }
 
         vector& operator=(vector const& x){
             if (!this->_size){
-                this->_array = this->_myAllocator.allocate(x._size);
+                this->_array = this->_myAllocator.allocate(x._capacity);
                 this->_size = x._size;
                 this->_capacity = x._capacity;
             }
@@ -68,7 +71,7 @@ namespace ft{
         }
 
         ~vector(){
-            this->_myAllocator.deallocate(this->_array, this->_size);
+            this->_myAllocator.deallocate(this->_array, this->_capacity);
             for (size_t i = 0; i < this->_size; i++)
                 this->_myAllocator.destroy(this->_array+i);
         }
@@ -114,6 +117,18 @@ namespace ft{
         }
 
         void                    resize(size_type n, value_type val = value_type()){
+            if (n < this->_size)
+                while (--this->_size > n);
+            else
+            {
+                if (n > this->_capacity*2)
+                    this->_resize = n;
+                else if (n > this->_capacity)
+                    this->_resize = this->_capacity * 2;
+                while (n > this->_size)
+                    push_back(val);
+                this->_resize = 0;
+            }
         }
 
         size_type               capacity() const{
@@ -130,8 +145,12 @@ namespace ft{
                 this->_myAllocator.deallocate(this->_array, 0);
                 this->_array = this->_myAllocator.allocate(this->_capacity);
             }
-            else if (this->_size == this->_capacity && (this->_capacity *= 2))
+            else if (this->_size == this->_capacity)
             {
+                if (this->_resize == 0)
+                    this->_capacity *= 2;
+                else
+                    this->_capacity = this->_resize;
                 this->_tmp = this->_myAllocator.allocate(this->_size);
                 for (size_t i = 0; i < this->_size; i++)
                     this->_tmp[i] = this->_array[i];
@@ -162,6 +181,7 @@ namespace ft{
         allocator_type  _myAllocator;
         size_type       _size;
         size_type       _capacity;
+        size_type       _resize;
     };
 }
 #endif
