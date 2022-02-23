@@ -31,6 +31,7 @@ namespace ft{
             this->_size = 0;
             this->_capacity = 0;
         }
+
         explicit vector (size_type n, const value_type& val = value_type(),
                      const allocator_type& alloc = allocator_type()){
                         this->_array = this->_myAllocator.allocate(n);
@@ -39,6 +40,7 @@ namespace ft{
                         this->_size = n;
                         this->_capacity = n;
         }
+
         template <class InputIterator>
              vector (InputIterator first, InputIterator last,
                      const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
@@ -49,9 +51,11 @@ namespace ft{
                         for (size_t i = 0; i < distance; i++)
                             this->_array[i] = *first++;
         }
+
         vector (const vector& x) : _size(0), _capacity(0){
             *this = x;
         }
+
         vector& operator=(vector const& x){
             if (!this->_size){
                 this->_array = this->_myAllocator.allocate(x._size);
@@ -62,42 +66,102 @@ namespace ft{
                 this->_array[i] = x._array[i];
             return *this;
         }
+
         ~vector(){
             this->_myAllocator.deallocate(this->_array, this->_size);
             for (size_t i = 0; i < this->_size; i++)
                 this->_myAllocator.destroy(this->_array+i);
         }
 
-        iterator begin(){
+        iterator                begin(){
             return iterator(this->_array);
         }
-        const_iterator begin() const{
+
+        const_iterator          begin() const{
             return const_iterator(this->_array);
         }
-        iterator end(){
+
+        iterator                end(){
             return iterator(this->_array+this->_size);
         }
-        const_iterator end() const{
+
+        const_iterator          end() const{
             return const_iterator(this->_array+this->_size);
         }
-        reverse_iterator rbegin(){
-            return reverse_iterator(this->end()-1);
+
+        reverse_iterator        rbegin(){
+            return reverse_iterator(this->end());
         }
-        const_reverse_iterator rbegin() const{
-            return const_reverse_iterator(this->end()-1);
+
+        const_reverse_iterator  rbegin() const{
+            return const_reverse_iterator(this->end());
         }
-        reverse_iterator rend(){
-            return reverse_iterator(this->begin()-1);
+
+        reverse_iterator        rend(){
+            return reverse_iterator(this->begin());
         }
-        const_reverse_iterator rend() const{
-            const_reverse_iterator(this->begin()-1);
+
+        const_reverse_iterator  rend() const{
+            const_reverse_iterator(this->begin());
         }
-        
+
+        size_type               size() const{
+            return this->_size;
+        }
+
+        size_type               max_size() const{
+            return this->_myAllocator.max_size();
+        }
+
+        void                    resize(size_type n, value_type val = value_type()){
+        }
+
+        size_type               capacity() const{
+            return this->_capacity;
+        }
+
+        bool                    empty() const{
+            return this->_size == 0;
+        }
+
+        void                    push_back(const value_type& val){
+            if (this->_size == 0 && ++this->_capacity)
+            {
+                this->_myAllocator.deallocate(this->_array, 0);
+                this->_array = this->_myAllocator.allocate(this->_capacity);
+            }
+            else if (this->_size == this->_capacity && (this->_capacity *= 2))
+            {
+                this->_tmp = this->_myAllocator.allocate(this->_size);
+                for (size_t i = 0; i < this->_size; i++)
+                    this->_tmp[i] = this->_array[i];
+                this->_myAllocator.deallocate(this->_array, this->_capacity/2);
+                this->_array = this->_myAllocator.allocate(this->_capacity);
+                for (size_t i = 0; i < this->_size; i++)
+                    this->_array[i] = this->_tmp[i];
+                this->_myAllocator.deallocate(this->_tmp, this->_size);
+            }
+            this->_array[this->_size++] = val;   
+        }
+
+        void                    pop_back(){
+            this->_size--;
+        }
+
+        reference               operator[](size_type n){
+            return this->_array[n];
+        }
+
+        const_reference         operator[](size_type n) const{
+            return this->_array[n];
+        }
+
         private:
         T               *_array;
+        T               *_tmp;
         allocator_type  _myAllocator;
-        difference_type _size;
-        difference_type _capacity;
+        size_type       _size;
+        size_type       _capacity;
     };
 }
 #endif
