@@ -61,9 +61,9 @@ namespace ft{
         }
 
         vector& operator=(vector const& x){
-            this->_array = this->_myAllocator.allocate(x._capacity);
+            if (this->_capacity < x._capacity && (this->_capacity = x._capacity))
+                this->_array = this->_myAllocator.allocate(x._capacity);
             this->_size = x._size;
-            this->_capacity = x._capacity;
             for (size_type i = 0; i < x._size; i++)
                 this->_array[i] = x._array[i];
             return *this;
@@ -216,10 +216,15 @@ namespace ft{
                     for (difference_type i = 0; i < distance; i++)
                         this->_array[i] = *first++;
                 else
+                {
+                    this->_myAllocator.deallocate(this->_array, this->_capacity);
                     *this = vector(first, last);
+                }
         }
 
         void                    assign (size_type n, const value_type& val){
+            if (n > this->_capacity)
+                this->_myAllocator.deallocate(this->_array, this->_capacity);
             *this = vector(n, val);
         }
 
