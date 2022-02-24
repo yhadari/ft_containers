@@ -14,7 +14,7 @@ int main()
         std::cout << *(it2+1) << std::endl;
 
         ft::vector<int>::iterator it1 = v1.begin();
-        v1.resize(230, -5);
+        v1.resize(1, -5);
         // v1.reserve(12);
         std::cout << "size: "<< v1.size() << " | Capacity: " << v1.capacity()
             << " | element [" << index << "]= " << v1[index] <<std::endl;
@@ -30,7 +30,7 @@ int main()
         std::cout << *(it2+1) << std::endl;
 
         std::vector<int>::iterator it1 = v1.begin();
-        v1.resize(230, -5);
+        v1.resize(1, -5);
         // v1.reserve(12);
         std::cout << "size: "<< v1.size() << " | Capacity: " << v1.capacity() 
             << " | element [" << index << "]= " << v1[index] <<std::endl;
@@ -39,6 +39,6 @@ int main()
     }
     std::cout << "\n<------------< End Tests >------------>" << std::endl;
     // system("leaks Containers");
-    while(1);
+    //while(1);
     return (0);
 }
