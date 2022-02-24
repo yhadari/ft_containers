@@ -5,35 +5,38 @@
 int main ()
 {
     {
-        ft::vector<int> first;
-        ft::vector<int> second;
-        ft::vector<int> third;
-
-        first.assign (7,100);             // 7 ints with a value of 100
-
-        ft::vector<int>::iterator it;
-        it=first.begin()+1;
-
-        second.assign (it,first.end()-1); // the 5 central values of first
-
-        int myints[] = {1776,7,4};
-        third.assign (myints,myints+3);   // assigning from array.
-
-        std::cout << "Size of first: " << int (first.size()) << '\n';
-        std::cout << "Size of second: " << int (second.size()) << '\n';
-        std::cout << "Size of third: " << int (third.size()) << '\n';
+        ft::vector<int>v1;
+        v1.push_back(1);
+        v1.push_back(2);
+        v1.push_back(3);
+        v1.push_back(4);
+        std::cout << v1[0] << std::endl;
+        std::cout << v1.size() << std::endl;
+        std::cout << v1.capacity() << std::endl;
+        ft::vector<int>::iterator it = v1.begin();
+        std::cout << *v1.insert(it, 11) << std::endl;
+        std::cout << v1[0] << std::endl;
+        std::cout << v1[2] << std::endl;
+        std::cout << v1.size() << std::endl;
+        std::cout << v1.capacity() << std::endl;
     }
     std::cout << "=================================================="<<std::endl;
     {
-        std::vector<int> myvector(10, 10);
-        std::cout << myvector[0] << std::endl;
-        std::cout << myvector.size() << std::endl;
-        std::cout << myvector.capacity() << std::endl;
-        myvector.assign(7, 7);
-        std::cout << myvector[1] << std::endl;
-        std::cout << myvector.size() << std::endl;
-        std::cout << myvector.capacity() << std::endl;
+        std::vector<int>v1;
+        v1.push_back(1);
+        v1.push_back(2);
+        v1.push_back(3);
+        v1.push_back(4);
+        std::cout << v1[0] << std::endl;
+        std::cout << v1.size() << std::endl;
+        std::cout << v1.capacity() << std::endl;
+        std::vector<int>::iterator it = v1.begin();
+        std::cout << *v1.insert(it, 11) << std::endl;
+        std::cout << v1[0] << std::endl;
+        std::cout << v1[2] << std::endl;
+        std::cout << v1.size() << std::endl;
+        std::cout << v1.capacity() << std::endl;
     }
-   while (1);
+//    while (1);
   return 0;
 }

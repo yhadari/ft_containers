@@ -209,7 +209,7 @@ namespace ft{
         }
         
         template <class InputIterator>
-        void                    assign (InputIterator first, InputIterator last, 
+        void                    assign(InputIterator first, InputIterator last, 
             typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
                 difference_type distance = last-first;
                 if (distance <= (difference_type)this->_size && (this->_size = distance))
@@ -222,10 +222,22 @@ namespace ft{
                 }
         }
 
-        void                    assign (size_type n, const value_type& val){
+        void                    assign(size_type n, const value_type& val){
             if (n > this->_capacity)
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
             *this = vector(n, val);
+        }
+
+        iterator                insert(iterator position, const value_type& val){
+            reserve(++this->_size);
+            iterator it = end()-1;
+            while (it > position)
+            {
+                *it = *(it-1);
+                it--;
+            }
+            *it = val;
+            return position;
         }
 
         private:
