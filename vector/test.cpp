@@ -5,35 +5,25 @@
 int main ()
 {
     {
-        ft::vector<int> myvector;
-
-        myvector.push_back(10);
-
-        while (myvector.back() != 0)
-        {
-          myvector.push_back ( myvector.back() -1 );
-        }
-
-        std::cout << "myvector contains:";
-        for (unsigned i=0; i<myvector.size() ; i++)
-          std::cout << ' ' << myvector[i];
-        std::cout << '\n';
+        ft::vector<int> myvector(10, 10);
+        std::cout << myvector[0] << std::endl;
+        std::cout << myvector.size() << std::endl;
+        std::cout << myvector.capacity() << std::endl;
+        myvector.assign(6, 6);
+        std::cout << myvector[0] << std::endl;
+        std::cout << myvector.size() << std::endl;
+        std::cout << myvector.capacity() << std::endl;
     }
     std::cout << "=================================================="<<std::endl;
     {
-        std::vector<int> myvector;
-
-        myvector.push_back(10);
-
-        while (myvector.back() != 0)
-        {
-          myvector.push_back ( myvector.back() -1 );
-        }
-
-        std::cout << "myvector contains:";
-        for (unsigned i=0; i<myvector.size() ; i++)
-          std::cout << ' ' << myvector[i];
-        std::cout << '\n';
+        std::vector<int> myvector(10, 10);
+        std::cout << myvector[0] << std::endl;
+        std::cout << myvector.size() << std::endl;
+        std::cout << myvector.capacity() << std::endl;
+        myvector.assign(6, 6);
+        std::cout << myvector[0] << std::endl;
+        std::cout << myvector.size() << std::endl;
+        std::cout << myvector.capacity() << std::endl;
     }
 //   while (1);
   return 0;

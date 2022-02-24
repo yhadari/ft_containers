@@ -5,6 +5,7 @@
 #include "Reverse_iterator.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
+#include <stdexcept>
 
 namespace ft{
 
@@ -26,13 +27,6 @@ namespace ft{
         typedef typename    ft::iterator_traits<iterator>::difference_type  difference_type;
         typedef             size_t                                          size_type;
 
-        class   at_exception : public std::exception{
-            public:
-            const char* what() const throw(){
-                return "vector";
-            }
-        };
-
         explicit vector(const allocator_type& alloc = allocator_type()){
             (void)alloc;
             this->_array = this->_myAllocator.allocate(0);
@@ -44,7 +38,7 @@ namespace ft{
             const allocator_type& alloc = allocator_type()){
                 (void)alloc;
                 this->_array = this->_myAllocator.allocate(n);
-                for (size_t i = 0; i < n; i++)
+                for (size_type i = 0; i < n; i++)
                     this->_myAllocator.construct(this->_array+i, val);
                 this->_size = n;
                 this->_capacity = n;
@@ -58,7 +52,7 @@ namespace ft{
                 this->_array = this->_myAllocator.allocate(distance);
                 this->_size = distance;
                 this->_capacity = distance;
-                for (size_t i = 0; i < distance; i++)
+                for (difference_type i = 0; i < distance; i++)
                     this->_array[i] = *first++;
         }
 
@@ -67,19 +61,18 @@ namespace ft{
         }
 
         vector& operator=(vector const& x){
-            if (!this->_size){
-                this->_array = this->_myAllocator.allocate(x._capacity);
-                this->_size = x._size;
-                this->_capacity = x._capacity;
-            }
-            for (size_t i = 0; i < x._size; i++)
+            this->_array = this->_myAllocator.allocate(x._capacity);
+            this->_size = x._size;
+            this->_capacity = x._capacity;
+            for (size_type i = 0; i < x._size; i++)
                 this->_array[i] = x._array[i];
             return *this;
         }
 
         ~vector(){
-            for (size_t i = 0; i < this->_size; i++)
+            for (size_type i = 0; i < this->_size; i++)
                 this->_myAllocator.destroy(this->_array+i);
+            this->_myAllocator.deallocate(this->_array, this->_capacity);
             this->_size = 0;
             this->_capacity = 0;
         }
@@ -152,12 +145,12 @@ namespace ft{
             {
                 T   *tmp;
                 tmp = this->_myAllocator.allocate(this->_size);
-                for (size_t i = 0; i < this->_size; i++)
+                for (size_type i = 0; i < this->_size; i++)
                     tmp[i] = this->_array[i];
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
                 this->_capacity = n;
                 this->_array = this->_myAllocator.allocate(this->_capacity);
-                for (size_t i = 0; i < this->_size; i++)
+                for (size_type i = 0; i < this->_size; i++)
                     this->_array[i] = tmp[i];
                 this->_myAllocator.deallocate(tmp, this->_size);
             }
@@ -190,13 +183,13 @@ namespace ft{
         reference               at(size_type n){
             if (n < this->_size)
                 return this->_array[n];
-            throw vector::at_exception();
+            throw std::out_of_range("vector");
         }
 
         const_reference         at(size_type n) const{
             if (n < this->_size)
                 return this->_array[n];
-            throw vector::at_exception();
+            throw std::out_of_range("vector");
         }
 
         reference               front(){
@@ -215,6 +208,21 @@ namespace ft{
             return *(end()-1);
         }
         
+        template <class InputIterator>
+        void                    assign (InputIterator first, InputIterator last, 
+            typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+                difference_type distance = last-first;
+                if (distance <= (difference_type)this->_size && (this->_size = distance))
+                    for (difference_type i = 0; i < distance; i++)
+                        this->_array[i] = *first++;
+                else
+                    *this = vector(first, last);
+        }
+
+        void                    assign (size_type n, const value_type& val){
+            *this = vector(n, val);
+        }
+
         private:
         T               *_array;
         allocator_type  _myAllocator;

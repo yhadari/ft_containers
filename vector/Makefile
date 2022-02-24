@@ -4,10 +4,11 @@ all : $(NAME)
 
 $(NAME) : *.cpp
 	@clear
-	@c++ -Wall -Wextra -Werror *.cpp -o $(NAME)
+	@c++ -g -Wall -Wextra -Werror *.cpp -o $(NAME)
 
 clean:
 	@ rm -rf *.gch
+	@ rm -rf *.dSYM
 	@rm -rf $(NAME)
 
 fclean : clean
