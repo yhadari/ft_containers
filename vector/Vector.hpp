@@ -121,9 +121,9 @@ namespace ft{
             else
             {
                 if (n > this->_capacity*2)
-                    this->_capacity = n;
+                    reserve(n);
                 else if (n > this->_capacity)
-                    this->_capacity *= 2;
+                    reserve(this->_capacity*2);
                 while (n > this->_size)
                     push_back(val);
             }
@@ -137,26 +137,30 @@ namespace ft{
             return this->_size == 0;
         }
 
-        void                    push_back(const value_type& val){
-            if (this->_size == 0 && ++this->_capacity)
-            {
-                this->_myAllocator.deallocate(this->_array, 0);
-                this->_array = this->_myAllocator.allocate(this->_capacity);
-            }
-            else
+        void                    reserve(size_type n){
+            if (n > this->_capacity)
             {
                 T   *tmp;
-                if (this->_size == this->_capacity)
-                    this->_capacity *= 2;
                 tmp = this->_myAllocator.allocate(this->_size);
                 for (size_t i = 0; i < this->_size; i++)
                     tmp[i] = this->_array[i];
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
+                this->_capacity = n;
                 this->_array = this->_myAllocator.allocate(this->_capacity);
                 for (size_t i = 0; i < this->_size; i++)
                     this->_array[i] = tmp[i];
                 this->_myAllocator.deallocate(tmp, this->_size);
             }
+        }
+
+        void                    push_back(const value_type& val){
+            if (this->_capacity == 0)
+            {
+                this->_myAllocator.deallocate(this->_array, 0);
+                this->_array = this->_myAllocator.allocate(++this->_capacity);
+            }
+            else if(this->_size == this->_capacity)
+                reserve(this->_capacity*2);
             this->_array[this->_size++] = val;   
         }
 
