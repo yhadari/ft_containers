@@ -26,30 +26,40 @@ namespace ft{
         typedef typename    ft::iterator_traits<iterator>::difference_type  difference_type;
         typedef             size_t                                          size_type;
 
+        class   at_exception : public std::exception{
+            public:
+            const char* what() const throw(){
+                return "vector";
+            }
+        };
+
         explicit vector(const allocator_type& alloc = allocator_type()){
+            (void)alloc;
             this->_array = this->_myAllocator.allocate(0);
             this->_size = 0;
             this->_capacity = 0;
         }
 
         explicit vector (size_type n, const value_type& val = value_type(),
-                     const allocator_type& alloc = allocator_type()){
-                        this->_array = this->_myAllocator.allocate(n);
-                        for (size_t i = 0; i < n; i++)
-                            this->_myAllocator.construct(this->_array+i, val);
-                        this->_size = n;
-                        this->_capacity = n;
+            const allocator_type& alloc = allocator_type()){
+                (void)alloc;
+                this->_array = this->_myAllocator.allocate(n);
+                for (size_t i = 0; i < n; i++)
+                    this->_myAllocator.construct(this->_array+i, val);
+                this->_size = n;
+                this->_capacity = n;
         }
 
         template <class InputIterator>
-             vector (InputIterator first, InputIterator last,
-                     const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
-                        difference_type distance = last-first;
-                        this->_array = this->_myAllocator.allocate(distance);
-                        this->_size = distance;
-                        this->_capacity = distance;
-                        for (size_t i = 0; i < distance; i++)
-                            this->_array[i] = *first++;
+        vector (InputIterator first, InputIterator last,
+            const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+                (void)alloc;
+                difference_type distance = last-first;
+                this->_array = this->_myAllocator.allocate(distance);
+                this->_size = distance;
+                this->_capacity = distance;
+                for (size_t i = 0; i < distance; i++)
+                    this->_array[i] = *first++;
         }
 
         vector (const vector& x) : _size(0), _capacity(0){
@@ -177,6 +187,34 @@ namespace ft{
             return this->_array[n];
         }
 
+        reference               at(size_type n){
+            if (n < this->_size)
+                return this->_array[n];
+            throw vector::at_exception();
+        }
+
+        const_reference         at(size_type n) const{
+            if (n < this->_size)
+                return this->_array[n];
+            throw vector::at_exception();
+        }
+
+        reference               front(){
+            return *begin();
+        }
+
+        const_reference         front() const{
+            return *begin();
+        }
+
+        reference               back(){
+            return *(end()-1);
+        }
+
+        const_reference         back() const{
+            return *(end()-1);
+        }
+        
         private:
         T               *_array;
         allocator_type  _myAllocator;
