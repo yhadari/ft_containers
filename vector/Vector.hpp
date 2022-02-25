@@ -229,15 +229,17 @@ namespace ft{
         }
 
         iterator                insert(iterator position, const value_type& val){
-            reserve(++this->_size);
+            difference_type distance = end()-position;
+            if (++this->_size > this->_capacity)
+                reserve(this->_capacity*2);
             iterator it = end()-1;
-            while (it > position)
+            while (distance--)
             {
                 *it = *(it-1);
                 it--;
             }
             *it = val;
-            return position;
+            return it;
         }
 
         private:
