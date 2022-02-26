@@ -231,17 +231,55 @@ namespace ft{
         iterator                insert(iterator position, const value_type& val){
             difference_type distance = end()-position;
             if (++this->_size > this->_capacity)
-                reserve(this->_capacity*2);
-            iterator it = end()-1;
-            while (distance--)
+                reserve(this->_capacity ? this->_capacity*2 : 1);
+            if (distance >= 0)
             {
-                *it = *(it-1);
-                it--;
+                iterator it = end()-1;
+                while (distance--)
+                {
+                    *it = *(it-1);
+                    it--;
+                }
+                *it = val;
+                return it;
             }
-            *it = val;
-            return it;
+            else{
+                this->_size += (-distance);
+                vector v;
+                v.push_back(val);
+                iterator it = v.begin();
+                return it;
+            }
         }
 
+        void                    insert(iterator position, size_type n, const value_type& val)
+        {
+            if (n > 0)
+            {
+                difference_type distance = end()-position;
+                if ((this->_size += n) > this->_capacity*2)
+                    reserve(this->_capacity ? this->_capacity+n : 1);
+                else
+                    reserve(this->_capacity ? this->_capacity*2 : 1);
+                if (distance >= 0)
+                {
+                    iterator it = end()-1;
+                    while (distance--)
+                    {
+                        *it = *(it-n);
+                        it--;
+                    }
+                    while (n--)
+                    {
+                        *it = val;
+                        it--;
+                    }
+                }
+                else
+                    this->_size += (-distance);
+            }
+        }
+        
         private:
         T               *_array;
         allocator_type  _myAllocator;
