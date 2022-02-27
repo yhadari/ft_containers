@@ -281,7 +281,8 @@ namespace ft{
         }
         
         template <class InputIterator>
-        void                    insert(iterator position, InputIterator first, InputIterator last){
+        void                    insert(iterator position, InputIterator first, InputIterator last, 
+            typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
             difference_type val_size = last-first;
             if (val_size > 0)
             {
