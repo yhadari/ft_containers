@@ -4,27 +4,43 @@
 
 int main ()
 {
-  ft::vector<int> myvector (3,100);
-  ft::vector<int>::iterator it;
+    {
+        ft::vector<int> myvector;
+        ft::vector<int> myvector1;
 
-  it = myvector.begin();
-  it = myvector.insert ( it , 200 );
+        // set some values (from 1 to 10)
+        for (int i=1; i<=10; i++) myvector.push_back(i);
 
-  myvector.insert (it,2,300);
+        // erase the 6th element
+        myvector.erase (myvector.begin()+5);
 
-  // "it" no longer valid, get a new one:
-  it = myvector.begin();
+        // erase the first 3 elements:
+        std::cout << "1 " << *myvector1.erase (myvector.begin(),myvector.begin()+2) << std::endl;
 
-  ft::vector<int> anothervector (2,400);
-  myvector.insert (it+2,anothervector.begin(),anothervector.end());
+        std::cout << "myvector contains:";
+        for (unsigned i=0; i<myvector.size(); ++i)
+          std::cout << ' ' << myvector[i];
+        std::cout << '\n';
+    }
+    std::cout << "=================================================="<<std::endl;
+    {
+        std::vector<int> myvector;
+        std::vector<int> myvector1;
 
-  int myarray [] = { 501,502,503 };
-  myvector.insert (myvector.begin(), myarray, myarray+3);
+        // set some values (from 1 to 10)
+        for (int i=1; i<=10; i++) myvector.push_back(i);
 
-  std::cout << "myvector contains:";
-  for (it=myvector.begin(); it<myvector.end(); it++)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+        // erase the 6th element
+        myvector.erase (myvector.begin()+5);
 
+        // erase the first 3 elements:
+        std::cout << "1 " << *myvector1.erase (myvector.begin(),myvector.begin()+2) << std::endl;
+
+        std::cout << "myvector contains:";
+        for (unsigned i=0; i<myvector.size(); ++i)
+          std::cout << ' ' << myvector[i];
+        std::cout << '\n';
+    }
+    // while (1);
   return 0;
 }

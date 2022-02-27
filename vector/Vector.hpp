@@ -151,6 +151,7 @@ namespace ft{
                     this->_myAllocator.destroy(this->_array+i);
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
                 this->_array = new_arr;
+                this->_capacity = n;
             }
         }
 
@@ -309,15 +310,19 @@ namespace ft{
         }
 
         iterator                erase(iterator position){
-            this->_myAllocator.construct(&(*position), *(position+1));
+            difference_type distance = end()-position;
+            iterator it = position;
+            while (--distance)
+                this->_myAllocator.construct(&(*it), *(++it));
             pop_back();
             return position;
         }
 
-        /*iterator                erase(iterator first, iterator last){
+        iterator                erase(iterator first, iterator last){
             for (difference_type i = 0; i < last-first; i++)
-                    this->_array[i] = *first++;
-        }*/
+                erase(first);
+            return first;
+        }
 
         private: 
         T               *_array;
