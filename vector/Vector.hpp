@@ -143,16 +143,14 @@ namespace ft{
         void                    reserve(size_type n){
             if (n > this->_capacity)
             {
-                T   *tmp;
-                tmp = this->_myAllocator.allocate(this->_size);
+                T   *new_arr;
+                new_arr = this->_myAllocator.allocate(n);
                 for (size_type i = 0; i < this->_size; i++)
-                    tmp[i] = this->_array[i];
+                    this->_myAllocator.construct(new_arr+i, this->_array[i]);
+                for (size_type i = 0; i < this->_size; i++)
+                    this->_myAllocator.destroy(this->_array+i);
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
-                this->_capacity = n;
-                this->_array = this->_myAllocator.allocate(this->_capacity);
-                for (size_type i = 0; i < this->_size; i++)
-                    this->_myAllocator.construct(this->_array+i, tmp[i]);
-                this->_myAllocator.deallocate(tmp, this->_size);
+                this->_array = new_arr;
             }
         }
 
@@ -309,6 +307,17 @@ namespace ft{
                     this->_size -= distance;
             }
         }
+
+        iterator                erase(iterator position){
+            this->_myAllocator.construct(&(*position), *(position+1));
+            pop_back();
+            return position;
+        }
+
+        /*iterator                erase(iterator first, iterator last){
+            for (difference_type i = 0; i < last-first; i++)
+                    this->_array[i] = *first++;
+        }*/
 
         private: 
         T               *_array;
