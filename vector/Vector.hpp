@@ -151,7 +151,7 @@ namespace ft{
                 this->_capacity = n;
                 this->_array = this->_myAllocator.allocate(this->_capacity);
                 for (size_type i = 0; i < this->_size; i++)
-                    this->_array[i] = tmp[i];
+                    this->_myAllocator.construct(this->_array+i, tmp[i]);
                 this->_myAllocator.deallocate(tmp, this->_size);
             }
         }
@@ -164,7 +164,7 @@ namespace ft{
             }
             else if(this->_size == this->_capacity)
                 reserve(this->_capacity*2);
-            this->_array[this->_size++] = val;   
+            this->_myAllocator.construct(this->_array+this->_size++, val);
         }
 
         void                    pop_back(){
@@ -214,7 +214,7 @@ namespace ft{
                 difference_type distance = last-first;
                 if (distance <= (difference_type)this->_size && (this->_size = distance))
                     for (difference_type i = 0; i < distance; i++)
-                        this->_array[i] = *first++;
+                        this->_myAllocator.construct(this->_array+i, *first++);
                 else
                 {
                     this->_myAllocator.deallocate(this->_array, this->_capacity);
@@ -235,16 +235,16 @@ namespace ft{
             if (distance >= 0)
             {
                 iterator it = end()-1;
-                while (distance--)
+                while (distance-- && it != begin())
                 {
-                    *it = *(it-1);
+                    this->_myAllocator.construct(&(*it), *(it-1));
                     it--;
                 }
                 *it = val;
                 return it;
             }
             else{
-                this->_size += (-distance);
+                this->_size -= distance;
                 vector v;
                 v.push_back(val);
                 iterator it = v.begin();
@@ -264,23 +264,52 @@ namespace ft{
                 if (distance >= 0)
                 {
                     iterator it = end()-1;
-                    while (distance--)
+                    while (distance-- && it != begin())
                     {
-                        *it = *(it-n);
+                        this->_myAllocator.construct(&(*it), *(it-n));
                         it--;
                     }
                     while (n--)
                     {
-                        *it = val;
+                        this->_myAllocator.construct(&(*it), val);
                         it--;
                     }
                 }
                 else
-                    this->_size += (-distance);
+                    this->_size -= distance;
             }
         }
         
-        private:
+        template <class InputIterator>
+        void                    insert(iterator position, InputIterator first, InputIterator last){
+            difference_type val_size = last-first;
+            if (val_size > 0)
+            {
+                difference_type distance = end()-position;
+                if ((this->_size += val_size) > this->_capacity*2)
+                    reserve(this->_capacity ? this->_capacity+val_size : 1);
+                else
+                    reserve(this->_capacity ? this->_capacity*2 : 1);
+                if (distance >= 0)
+                {
+                    iterator it = end()-1;
+                    while (distance-- && it != begin())
+                    {
+                        this->_myAllocator.construct(&(*it), *(it-val_size));
+                        it--;
+                    }
+                    while (val_size--)
+                    {
+                        this->_myAllocator.construct(&(*it), *--last);
+                        it--;
+                    }
+                }
+                else
+                    this->_size -= distance;
+            }
+        }
+
+        private: 
         T               *_array;
         allocator_type  _myAllocator;
         size_type       _size;
