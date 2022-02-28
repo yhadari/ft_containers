@@ -164,22 +164,6 @@ namespace ft{
             }
         }
 
-        void                    push_back(const value_type& val){
-            if (this->_capacity == 0)
-            {
-                this->_myAllocator.deallocate(this->_array, 0);
-                this->_array = this->_myAllocator.allocate(++this->_capacity);
-            }
-            else if(this->_size == this->_capacity)
-                reserve(this->_capacity*2);
-            this->_myAllocator.construct(this->_array+this->_size++, val);
-        }
-
-        void                    pop_back(){
-            this->_size--;
-            this->_myAllocator.destroy(this->_array+this->_size);
-        }
-
         reference               operator[](size_type n){
             return this->_array[n];
         }
@@ -234,6 +218,22 @@ namespace ft{
             if (n > this->_capacity)
                 this->_myAllocator.deallocate(this->_array, this->_capacity);
             *this = vector(n, val);
+        }
+
+        void                    push_back(const value_type& val){
+            if (this->_capacity == 0)
+            {
+                this->_myAllocator.deallocate(this->_array, 0);
+                this->_array = this->_myAllocator.allocate(++this->_capacity);
+            }
+            else if(this->_size == this->_capacity)
+                reserve(this->_capacity*2);
+            this->_myAllocator.construct(this->_array+this->_size++, val);
+        }
+
+        void                    pop_back(){
+            this->_size--;
+            this->_myAllocator.destroy(this->_array+this->_size);
         }
 
         iterator                insert(iterator position, const value_type& val){
@@ -345,6 +345,11 @@ namespace ft{
             x._size = size;
             x._capacity = capacity;
         } 
+
+        void                    clear(){
+            while (this->_size)
+                pop_back();
+        }
 
         private: 
         T               *_array;
