@@ -70,9 +70,12 @@ namespace ft{
         }
 
         ~vector(){
-            for (size_type i = 0; i < this->_size; i++)
-                this->_myAllocator.destroy(this->_array+i);
-            this->_myAllocator.deallocate(this->_array, this->_capacity);
+            if (this->_capacity)
+            {
+                for (size_type i = 0; i < this->_size; i++)
+                    this->_myAllocator.destroy(this->_array+i);
+                this->_myAllocator.deallocate(this->_array, this->_capacity);
+            }
             this->_size = 0;
             this->_capacity = 0;
         }
@@ -322,6 +325,14 @@ namespace ft{
             for (difference_type i = 0; i < last-first; i++)
                 erase(first);
             return first;
+        }
+
+        void                    swap(vector& x){
+            vector tmp = *this;
+            //this->_myAllocator.deallocate(this->_array, this->_capacity);
+            *this = x;
+            //this->_myAllocator.deallocate(x._array, x._capacity);
+            x = tmp;
         }
 
         private: 
