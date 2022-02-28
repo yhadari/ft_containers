@@ -61,8 +61,13 @@ namespace ft{
         }
 
         vector& operator=(vector const& x){
-            if (this->_capacity < x._capacity && (this->_capacity = x._capacity))
+            if (this->_capacity < x._capacity)
+            {
+                if (this->_capacity)
+                    this->_myAllocator.deallocate(this->_array, this->_capacity);
                 this->_array = this->_myAllocator.allocate(x._capacity);
+                this->_capacity = x._capacity;
+            }
             this->_size = x._size;
             for (size_type i = 0; i < x._size; i++)
                 this->_array[i] = x._array[i];
@@ -74,7 +79,8 @@ namespace ft{
             {
                 for (size_type i = 0; i < this->_size; i++)
                     this->_myAllocator.destroy(this->_array+i);
-                this->_myAllocator.deallocate(this->_array, this->_capacity);
+                if (this->_array)
+                    this->_myAllocator.deallocate(this->_array, this->_capacity);
             }
             this->_size = 0;
             this->_capacity = 0;
@@ -328,12 +334,17 @@ namespace ft{
         }
 
         void                    swap(vector& x){
-            vector tmp = *this;
-            //this->_myAllocator.deallocate(this->_array, this->_capacity);
-            *this = x;
-            //this->_myAllocator.deallocate(x._array, x._capacity);
-            x = tmp;
-        }
+            T *tmp = this->_array;
+            size_type capacity  = this->_capacity;
+            size_type size  = this->_size;
+
+            this->_array = x._array;
+            this->_size = x._size;
+            this->_capacity = x._capacity;
+            x._array = tmp;
+            x._size = size;
+            x._capacity = capacity;
+        } 
 
         private: 
         T               *_array;
