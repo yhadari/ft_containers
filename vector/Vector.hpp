@@ -6,6 +6,8 @@
 #include "enable_if.hpp"
 #include "is_integral.hpp"
 #include <stdexcept>
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft{
 
@@ -351,11 +353,58 @@ namespace ft{
                 pop_back();
         }
 
+        allocator_type          get_allocator() const{
+            return this->_myAllocator;
+        }
+
         private: 
         T               *_array;
         allocator_type  _myAllocator;
         size_type       _size;
         size_type       _capacity;
     };
+
+    template <class T, class Alloc>
+        bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            if (lhs.size() == rhs.size())
+                return equal(lhs.begin(), lhs.end(), rhs.begin());
+            else
+                return false;
+        }
+
+    template <class T, class Alloc>
+        bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            return !operator==(lhs, rhs);
+        }
+    	
+    template <class T, class Alloc>
+        bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+        }
+    	
+    template <class T, class Alloc>
+        bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            if (operator==(lhs, rhs) || operator<(lhs, rhs))
+                return true;
+            return false;
+        }
+    	
+    template <class T, class Alloc>
+        bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            return !lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+        }
+    	
+    template <class T, class Alloc>
+        bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
+            if (operator==(lhs, rhs) || operator>(lhs, rhs))
+                return true;
+            return false;
+        }
+
+    template <class T, class Alloc>
+        void swap(vector<T,Alloc>& x, vector<T,Alloc>& y){
+            x.swap(y);
+  }
+
 }
 #endif
