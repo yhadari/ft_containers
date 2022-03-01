@@ -55,7 +55,7 @@ namespace ft{
                 this->_size = distance;
                 this->_capacity = distance;
                 for (difference_type i = 0; i < distance; i++)
-                    this->_array[i] = *first++;
+                    this->_myAllocator.construct(this->_array+i, *first++);
         }
 
         vector (const vector& x) : _size(0), _capacity(0){
@@ -71,8 +71,8 @@ namespace ft{
                 this->_capacity = x._capacity;
             }
             this->_size = x._size;
-            for (size_type i = 0; i < x._size; i++)
-                this->_array[i] = x._array[i];
+            for (size_t i = 0; i < this->_size; i++)
+                this->_myAllocator.construct(this->_array+i, *(x._array+i));
             return *this;
         }
 

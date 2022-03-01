@@ -2,9 +2,9 @@ NAME = test
 
 all : $(NAME)
 
-$(NAME) : *.cpp
+$(NAME) : test.cpp
 	@clear
-	@c++ -g -Wall -Wextra -Werror *.cpp -o $(NAME)
+	@c++ -g -Wall -Wextra -Werror test.cpp -o $(NAME)
 
 clean:
 	@ rm -rf *.gch
