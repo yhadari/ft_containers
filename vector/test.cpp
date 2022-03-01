@@ -121,7 +121,9 @@ void    const_iterator_tests(void)
 	/*----------------------------------*/
 	/*------------ ft::vector ---------*/
 	ft::vector<int>    my_v(3,4);
-	ft::vector<int>::const_iterator my_it = my_v.begin(),my_it1 = my_v.begin(), tmp;
+	ft::vector<int>::const_iterator my_it,my_it1, tmp;
+	my_it = my_v.begin();
+	my_it1 = my_v.begin() + 1;
 	/*----------------------------------*/
 	std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " copy constructor " << "] --------------------]\t\t\033[0m";
 	{

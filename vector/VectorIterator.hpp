@@ -17,10 +17,14 @@ namespace ft{
         typedef typename iterator<std::random_access_iterator_tag, T>::pointer              pointer;
         typedef typename iterator<std::random_access_iterator_tag, T>::reference            reference;
         typedef typename iterator<std::random_access_iterator_tag, T>::iterator_category    iterator_category;
-    
+
         VectorIterator(): _ptr(NULL){}
         VectorIterator(pointer p): _ptr(p){}
         VectorIterator(VectorIterator const& copy): _ptr(copy._ptr){}
+        operator            VectorIterator<const T>() const
+        {
+            return VectorIterator<const T>(this->_ptr);
+        }
         VectorIterator&     operator=(VectorIterator const& it){
             this->_ptr = it._ptr;
             return *this;
@@ -43,7 +47,7 @@ namespace ft{
             --(*this);
             return temp;
         };
-        difference_type     operator-(VectorIterator& it){
+        difference_type     operator-(VectorIterator const& it){
             difference_type Distance = this->_ptr - it._ptr;
             return Distance;
         };

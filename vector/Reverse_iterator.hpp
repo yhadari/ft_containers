@@ -20,6 +20,12 @@ namespace ft{
         reverse_iterator(): _iterator(NULL){}
         explicit reverse_iterator(iterator_type iterator) : _iterator(iterator){}
         reverse_iterator(reverse_iterator<Iterator> const& copy) : _iterator(copy._iterator){}
+        template <class Iter>
+  	   	reverse_iterator& operator= (const reverse_iterator<Iter>& rev_it)
+		{
+			this->_iterator = rev_it.base();
+			return (*this);	  
+		}
         iterator_type       base() const{
             return this->_iterator;
         }

@@ -95,7 +95,7 @@ namespace ft{
         const_iterator          begin() const{
             return const_iterator(this->_array);
         }
-
+        
         iterator                end(){
             return iterator(this->_array+this->_size);
         }
@@ -117,7 +117,7 @@ namespace ft{
         }
 
         const_reverse_iterator  rend() const{
-            const_reverse_iterator(this->begin());
+            return const_reverse_iterator(this->begin());
         }
 
         size_type               size() const{
@@ -367,7 +367,7 @@ namespace ft{
     template <class T, class Alloc>
         bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
             if (lhs.size() == rhs.size())
-                return equal(lhs.begin(), lhs.end(), rhs.begin());
+                return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
             else
                 return false;
         }
@@ -379,7 +379,7 @@ namespace ft{
     	
     template <class T, class Alloc>
         bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-            return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+            return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
         }
     	
     template <class T, class Alloc>
@@ -391,7 +391,7 @@ namespace ft{
     	
     template <class T, class Alloc>
         bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-            return !lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+            return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
         }
     	
     template <class T, class Alloc>
