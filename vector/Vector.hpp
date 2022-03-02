@@ -151,6 +151,8 @@ namespace ft{
         }
 
         void                    reserve(size_type n){
+            if (n > max_size())
+                throw std::length_error("vector::_M_fill_insert");
             if (n > this->_capacity)
             {
                 T   *new_arr;
@@ -159,7 +161,8 @@ namespace ft{
                     this->_myAllocator.construct(new_arr+i, this->_array[i]);
                 for (size_type i = 0; i < this->_size; i++)
                     this->_myAllocator.destroy(this->_array+i);
-                this->_myAllocator.deallocate(this->_array, this->_capacity);
+                if (this->_capacity)
+                    this->_myAllocator.deallocate(this->_array, this->_capacity);
                 this->_array = new_arr;
                 this->_capacity = n;
             }
@@ -209,15 +212,10 @@ namespace ft{
                     for (difference_type i = 0; i < distance; i++)
                         this->_myAllocator.construct(this->_array+i, *first++);
                 else
-                {
-                    //this->_myAllocator.deallocate(this->_array, this->_capacity);
                     *this = vector(first, last);
-                }
         }
 
         void                    assign(size_type n, const value_type& val){
-            // if (n > this->_capacity)
-            //     this->_myAllocator.deallocate(this->_array, this->_capacity);
             *this = vector(n, val);
         }
 

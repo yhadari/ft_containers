@@ -4,7 +4,7 @@ all : $(NAME)
 
 $(NAME) : test.cpp
 	@clear
-	@c++ -g -Wall -Wextra -Werror -fsanitize=address test.cpp -o $(NAME)
+	@c++ -Wall -Wextra -Werror -std=c++98 test.cpp -o $(NAME)
 
 clean:
 	@ rm -rf *.gch
