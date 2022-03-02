@@ -332,8 +332,16 @@ namespace ft{
         }
 
         iterator                erase(iterator first, iterator last){
-            for (difference_type i = 0; i < last-first; i++)
-                erase(first);
+            difference_type distance = end()-last;
+            difference_type counter = last-first;
+            iterator it = first;
+            while (distance--)
+            {
+                this->_myAllocator.construct(&(*it), *(it+counter));
+                it++;
+            }
+            while (counter--)
+                pop_back();
             return first;
         }
 
@@ -393,7 +401,7 @@ namespace ft{
     	
     template <class T, class Alloc>
         bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-            return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+            return (rhs < lhs);
         }
     	
     template <class T, class Alloc>

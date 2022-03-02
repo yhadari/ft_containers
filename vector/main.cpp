@@ -1,24 +1,40 @@
 #include "Vector.hpp"
 #include <vector>
 
-int main(){
-        std::string str, ft_str;
-        ft::vector<std::string>::size_type  s, ft_s;
-        ft::vector<std::string>::size_type  c, ft_c;
+int main ()
+{
+    {
+        ft::vector<int>v1;
+        v1.push_back(1);
+        v1.push_back(2);
+        v1.push_back(3);
+        v1.push_back(4);
+        v1.push_back(5);
+        v1.push_back(6);
 
-        std::vector<std::string>    v(20, "string");
-        ft::vector<std::string>     ft_v(20, "string");
-        v.insert(v.begin() + 10, 100, "hello");
-        ft_v.insert(ft_v.begin() + 10, 100, "hello");
-        str.clear();
-        ft_str.clear();
-        s = v.size();
-        ft_s = ft_v.size();
-        c = v.capacity();
-        ft_c = ft_v.capacity();
-        for (size_t i = 0; i < v.size(); ++i)
-            str += v[i];
-        for (size_t i = 0; i < ft_v.size(); ++i)
-            ft_str += ft_v[i];
-    return 0;
+        ft::vector<int>::iterator it = v1.begin();
+        v1.erase(it+2, it+4);
+        for (size_t i = 0; i < v1.size(); i++)
+        {
+            std::cout << v1[i] << std::endl;
+        }
+    }
+    std::cout << "--------------------------------------" << std::endl;
+    {
+        std::vector<int>v1;
+        v1.push_back(1);
+        v1.push_back(2);
+        v1.push_back(3);
+        v1.push_back(4);
+        v1.push_back(5);
+        v1.push_back(6);
+
+        std::vector<int>::iterator it = v1.begin();
+        v1.erase(it+2, it+4);
+        for (size_t i = 0; i < v1.size(); i++)
+        {
+            std::cout << v1[i] << std::endl;
+        }
+    }
+  return 0;
 }
