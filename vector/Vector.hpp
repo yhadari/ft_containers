@@ -30,15 +30,14 @@ namespace ft{
         typedef             size_t                                          size_type;
 
         explicit vector(const allocator_type& alloc = allocator_type()){
-            (void)alloc;
-            this->_array = this->_myAllocator.allocate(0);
+            this->_myAllocator = alloc;
             this->_size = 0;
             this->_capacity = 0;
         }
 
         explicit vector (size_type n, const value_type& val = value_type(),
             const allocator_type& alloc = allocator_type()){
-                (void)alloc;
+                this->_myAllocator = alloc;
                 this->_array = this->_myAllocator.allocate(n);
                 for (size_type i = 0; i < n; i++)
                     this->_myAllocator.construct(this->_array+i, val);
@@ -49,7 +48,7 @@ namespace ft{
         template <class InputIterator>
         vector (InputIterator first, InputIterator last,
             const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
-                (void)alloc;
+                this->_myAllocator = alloc;
                 difference_type distance = last-first;
                 this->_array = this->_myAllocator.allocate(distance);
                 this->_size = distance;
@@ -211,14 +210,14 @@ namespace ft{
                         this->_myAllocator.construct(this->_array+i, *first++);
                 else
                 {
-                    this->_myAllocator.deallocate(this->_array, this->_capacity);
+                    //this->_myAllocator.deallocate(this->_array, this->_capacity);
                     *this = vector(first, last);
                 }
         }
 
         void                    assign(size_type n, const value_type& val){
-            if (n > this->_capacity)
-                this->_myAllocator.deallocate(this->_array, this->_capacity);
+            // if (n > this->_capacity)
+            //     this->_myAllocator.deallocate(this->_array, this->_capacity);
             *this = vector(n, val);
         }
 
@@ -240,17 +239,18 @@ namespace ft{
 
         iterator                insert(iterator position, const value_type& val){
             difference_type distance = end()-position;
-            if (++this->_size > this->_capacity)
+            if (this->_size >= this->_capacity)
                 reserve(this->_capacity ? this->_capacity*2 : 1);
             if (distance >= 0)
             {
+                this->_size++;
                 iterator it = end()-1;
                 while (distance-- && it != begin())
                 {
                     this->_myAllocator.construct(&(*it), *(it-1));
                     it--;
                 }
-                *it = val;
+                this->_myAllocator.construct(&(*it), val);
                 return it;
             }
             else{
@@ -267,12 +267,13 @@ namespace ft{
             if (n > 0)
             {
                 difference_type distance = end()-position;
-                if ((this->_size += n) > this->_capacity*2)
-                    reserve(this->_capacity ? this->_capacity+n : 1);
-                else
-                    reserve(this->_capacity ? this->_capacity*2 : 1);
+                if ((this->_size + n) > this->_capacity*2)
+                    reserve(this->_capacity ? this->_capacity+n : n);
+                if ((this->_size + n) > this->_capacity)
+                    reserve(this->_capacity ? this->_capacity*2 : n);
                 if (distance >= 0)
                 {
+                    this->_size += n;
                     iterator it = end()-1;
                     while (distance-- && it != begin())
                     {
@@ -297,12 +298,13 @@ namespace ft{
             if (val_size > 0)
             {
                 difference_type distance = end()-position;
-                if ((this->_size += val_size) > this->_capacity*2)
-                    reserve(this->_capacity ? this->_capacity+val_size : 1);
-                else
-                    reserve(this->_capacity ? this->_capacity*2 : 1);
+                if ((this->_size + val_size) > this->_capacity*2)
+                    reserve(this->_capacity ? this->_capacity+val_size : val_size);
+                if ((this->_size + val_size) > this->_capacity)
+                    reserve(this->_capacity ? this->_capacity*2 : val_size);
                 if (distance >= 0)
                 {
+                    this->_size += val_size;
                     iterator it = end()-1;
                     while (distance-- && it != begin())
                     {
