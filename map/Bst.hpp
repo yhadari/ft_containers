@@ -16,12 +16,12 @@ class BstNode{
     BstNode*    get_left(){return this->_left;};
     BstNode*    get_right(){return this->_right;};
     int         get_nbNode(){return this->_nbNode;};
-    BstNode*    checkNode(BstNode* root, BstNode *NewNode){
+
+    BstNode*    checkNode(BstNode* &root, BstNode *NewNode){
         if (root->_data < NewNode->_data)
         {
-            if (!root->_right)
+            if (!root->_right && this->_nbNode++)
             {
-                this->_nbNode++;
                 root->_right = NewNode;
                 return NULL;
             }
@@ -29,9 +29,8 @@ class BstNode{
         }
         else if(root->_data > NewNode->_data)
         {
-            if (!root->_left)
+            if (!root->_left && this->_nbNode++)
             {
-                this->_nbNode++;
                 root->_left = NewNode;
                 return NULL;
             }
@@ -39,6 +38,7 @@ class BstNode{
         }
         return NULL;
     }
+
     void        insert(T data){
         if (!this->_nbNode)
         {
@@ -48,13 +48,40 @@ class BstNode{
         else
         {
             BstNode *NewNode = new(BstNode<T>);
-            BstNode *FinalNode = new(BstNode<T>);
+            BstNode *FinalNode = this;
             NewNode->_data = data;
-            FinalNode = this;
             while ((FinalNode = checkNode(FinalNode, NewNode)));
         }
     }
-    static  void    printNode(BstNode *root){
+
+    void        findNode(BstNode* &root, BstNode* &rightNode, BstNode* &leftNode, T data){
+        if(root)
+        {
+            findNode(root->_left, rightNode, leftNode, data);
+            if (root->_data == data)
+            {
+                leftNode = root->_left;
+                root = root->_right;
+            }
+            findNode(root->_right, rightNode, leftNode, data);
+        }
+    }
+
+    void        erase(T data){
+        BstNode *leftNode = NULL;
+        BstNode *rightNode = NULL;
+        BstNode *root = this;
+        findNode(root, rightNode, leftNode, data);
+        if (leftNode)
+        {
+            while (rightNode->_left)
+                rightNode = rightNode->_left;
+            rightNode->_left = leftNode;
+        }
+        this->_nbNode--;
+    }
+
+    static void printNode(BstNode *root){
         if (root)
         {
             printNode(root->_left);
