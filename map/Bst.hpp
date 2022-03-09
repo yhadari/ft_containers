@@ -17,41 +17,6 @@ class BstNode{
     BstNode*    get_right(){return this->_right;};
     int         get_nbNode(){return this->_nbNode;};
 
-    /*BstNode*    checkNode(BstNode *root, BstNode *NewNode){
-        if (root->_data < NewNode->_data)
-        {
-            if (!root->_right && ++this->_nbNode)
-            {
-                root->_right = NewNode;
-                return NULL;
-            }
-            return root->_right;
-        }
-        else if(root->_data > NewNode->_data)
-        {
-            if (!root->_left && ++this->_nbNode)
-            {
-                root->_left = NewNode;
-                return NULL;
-            }
-            return root->_left;
-        }
-        return NULL;
-    }
-
-    void        insert(T data){
-        if (!this->_nbNode && ++this->_nbNode)
-            this->_data = data;
-        else
-        {
-            BstNode *NewNode = new(BstNode<T>);
-            BstNode *FinalNode = this;
-            NewNode->_data = data;
-            while ((FinalNode = checkNode(FinalNode, NewNode)));
-        }
-    }
-*/
-
     bool        insert(T data)
     {
         if (!this->_nbNode && ++this->_nbNode)
@@ -77,58 +42,101 @@ class BstNode{
         }
     }
 
-    bool        find(T data){
+    void            erase(T data){
+        BstNode *eraseNode = find(data);
+        if (eraseNode){
+            if (!eraseNode->_left && !eraseNode->_right)
+            {
+                eraseNode = NULL;
+                this->_nbNode--;
+            }
+        }
+    }
+
+    BstNode*        find(T data){
         if (!this->_nbNode)
-            return false;
+            return NULL;
         if (this->_data == data)
-            return true;
+            return this;
         if (this->_data > data)
         {
             if (this->_left)
                 return this->_left->find(data);
-            return false;
+            return NULL;
         }
         else
         {
             if (this->_right)
                 return this->_right->find(data);
-            return false;
+            return NULL;
         }
     }
 
-    /*void        findNode(BstNode* &root, BstNode* &rightNode, BstNode* &leftNode, T data){
-        if(root)
-        {
-            findNode(root->_left, rightNode, leftNode, data);
-            if (root->_data == data)
-            {
-                leftNode = root->_left;
-                root = root->_right;
-            }
-            findNode(root->_right, rightNode, leftNode, data);
+    int         height()
+    {
+        if (!this->_nbNode)
+            return 0;
+        else {
+            int lDepth = 0;
+            int rDepth = 0;
+            if (this->_left)
+                lDepth = this->_left->height();
+            if (this->_right)
+                rDepth = this->_right->height();
+            if (lDepth > rDepth)
+                return (lDepth + 1);
+            else
+                return (rDepth + 1);
         }
     }
 
-    void        erase(T data){
-        BstNode *leftNode = NULL;
-        BstNode *rightNode = NULL;
-        BstNode *root = this;
-        findNode(root, rightNode, leftNode, data);
-        if (leftNode)
-        {
-            while (rightNode->_left)
-                rightNode = rightNode->_left;
-            rightNode->_left = leftNode;
+    void        printGivenLevel(int level)
+    {
+        if (!this->_nbNode)
+            return;
+        if (level == 1)
+            std::cout <<"  "<< this->_data;
+        else{
+            if (this->_left)
+                this->_left->printGivenLevel(level - 1);
+            if (this->_right)
+                this->_right->printGivenLevel(level - 1);
         }
-        this->_nbNode--;
     }
-*/
-    static void printNode(BstNode *root){
+
+    void        printLevelOrder()
+    {
+        int h = this->height();
+        for (int i = 1; i <= h; i++) {
+            this->printGivenLevel(i);
+            std::cout <<"\n";
+        }
+    }
+
+    static void inorder(BstNode *root){
         if (root)
         {
-            printNode(root->_left);
-            std::cout << root->_data << std::endl;
-            printNode(root->_right);
+            inorder(root->_left);
+            std::cout << root->_data << " ";
+            inorder(root->_right);
+        }
+    }
+
+    static void preorder(BstNode *root){
+        if (root)
+        {
+            std::cout << root->_data << " ";
+            preorder(root->_left);
+            preorder(root->_right);
+        }
+    }
+
+    static void postorder(BstNode *root){
+        if (root)
+        {
+            postorder(root->_left);
+            postorder(root->_right);
+            std::cout << root->_data << " ";
         }
     }
     ~BstNode(){};
