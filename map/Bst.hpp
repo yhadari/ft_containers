@@ -17,10 +17,10 @@ class BstNode{
     BstNode*    get_right(){return this->_right;};
     int         get_nbNode(){return this->_nbNode;};
 
-    BstNode*    checkNode(BstNode* &root, BstNode *NewNode){
+    /*BstNode*    checkNode(BstNode *root, BstNode *NewNode){
         if (root->_data < NewNode->_data)
         {
-            if (!root->_right && this->_nbNode++)
+            if (!root->_right && ++this->_nbNode)
             {
                 root->_right = NewNode;
                 return NULL;
@@ -29,7 +29,7 @@ class BstNode{
         }
         else if(root->_data > NewNode->_data)
         {
-            if (!root->_left && this->_nbNode++)
+            if (!root->_left && ++this->_nbNode)
             {
                 root->_left = NewNode;
                 return NULL;
@@ -40,11 +40,8 @@ class BstNode{
     }
 
     void        insert(T data){
-        if (!this->_nbNode)
-        {
+        if (!this->_nbNode && ++this->_nbNode)
             this->_data = data;
-            this->_nbNode++;
-        }
         else
         {
             BstNode *NewNode = new(BstNode<T>);
@@ -53,8 +50,53 @@ class BstNode{
             while ((FinalNode = checkNode(FinalNode, NewNode)));
         }
     }
+*/
 
-    void        findNode(BstNode* &root, BstNode* &rightNode, BstNode* &leftNode, T data){
+    bool        insert(T data)
+    {
+        if (!this->_nbNode && ++this->_nbNode)
+        {
+            this->_data = data;
+            return true;
+        }
+        if (this->_data == data)
+            return false;
+        if (this->_data > data)
+        {
+            this->_nbNode++;
+            if (!this->_left)
+                this->_left = new(BstNode<T>);
+            return this->_left->insert(data);
+        }
+        else
+        {
+            this->_nbNode++;
+            if (!this->_right)
+                this->_right = new(BstNode<T>);
+            return this->_right->insert(data);
+        }
+    }
+
+    bool        find(T data){
+        if (!this->_nbNode)
+            return false;
+        if (this->_data == data)
+            return true;
+        if (this->_data > data)
+        {
+            if (this->_left)
+                return this->_left->find(data);
+            return false;
+        }
+        else
+        {
+            if (this->_right)
+                return this->_right->find(data);
+            return false;
+        }
+    }
+
+    /*void        findNode(BstNode* &root, BstNode* &rightNode, BstNode* &leftNode, T data){
         if(root)
         {
             findNode(root->_left, rightNode, leftNode, data);
@@ -80,7 +122,7 @@ class BstNode{
         }
         this->_nbNode--;
     }
-
+*/
     static void printNode(BstNode *root){
         if (root)
         {
