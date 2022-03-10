@@ -8,7 +8,8 @@ int main(){
     rootPtr->insert(40);
     rootPtr->insert(70);
     rootPtr->insert(60);
-    rootPtr->erase(20);
+    rootPtr->erase(70);
+    rootPtr->erase(60);
     std::cout << "Number Nodes : " << rootPtr->get_nbNode() << std::endl;
     std::cout << "-------------inorder-------------" << std::endl;
     BstNode<int>::inorder(rootPtr);
@@ -22,6 +23,6 @@ int main(){
     std::cout << std::endl;
     //int i = 50;
     //std::cout << std::endl << i << " --> " << rootPtr->find(i) << std::endl;
-    while (1);
+    //while (1);
     return 0;
 }

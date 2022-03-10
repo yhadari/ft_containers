@@ -45,25 +45,58 @@ class BstNode{
         }
     }
 
+    BstNode*        get_small_leaf(BstNode *node){
+        if (node)
+        {
+            if (!node->_left)
+                return node;
+            get_small_leaf(node->_left);
+        }
+        return NULL;
+    }
+
     void            erase(T data){
         BstNode *eraseNode = find(data);
         if (eraseNode){
-            if (!eraseNode->_left && !eraseNode->_right)
-            {
-                if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data))
-                {
+            if (!eraseNode->_left && !eraseNode->_right){
+                if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                     delete eraseNode->_parent->_right;
                     eraseNode->_parent->_right = NULL;
                 }
-                else
-                {
+                else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
                     delete eraseNode->_parent->_left;
                     eraseNode->_parent->_left = NULL;
                 }
                 this->_nbNode--;
             }
-            else if ((eraseNode->_left && !eraseNode->_right) || (!eraseNode->_left && eraseNode->_right))
+            else if ((eraseNode->_left && !eraseNode->_right) || (!eraseNode->_left && eraseNode->_right)){
+                if ((eraseNode->_left && !eraseNode->_right)){
+                    if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+                        eraseNode->_left->_parent = eraseNode->_parent;
+                        eraseNode->_parent->_right = eraseNode->_left;
+                    }
+                    else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
+                        eraseNode->_left->_parent = eraseNode->_parent;
+                        eraseNode->_parent->_left = eraseNode->_left;
+                    }
+                }
+                else{
+                    if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+                        eraseNode->_right->_parent = eraseNode->_parent;
+                        eraseNode->_parent->_right = eraseNode->_right;
+                    }
+                    else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
+                        eraseNode->_right->_parent = eraseNode->_parent;
+                        eraseNode->_parent->_left = eraseNode->_right;
+                    }
+                }
+            }
+            else
             {
+                BstNode *small_leaf = get_small_leaf(eraseNode->_right);
+                T data = small_leaf->_data;
+                erase(small_leaf->_data);
+                eraseNode->_data = data;
             }
         }
     }
