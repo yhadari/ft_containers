@@ -73,23 +73,28 @@ class BstNode{
                 if ((eraseNode->_left && !eraseNode->_right)){
                     if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                         eraseNode->_left->_parent = eraseNode->_parent;
+                        delete eraseNode->_parent->_right;
                         eraseNode->_parent->_right = eraseNode->_left;
                     }
                     else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
                         eraseNode->_left->_parent = eraseNode->_parent;
+                        delete eraseNode->_parent->_left;
                         eraseNode->_parent->_left = eraseNode->_left;
                     }
                 }
                 else{
                     if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                         eraseNode->_right->_parent = eraseNode->_parent;
+                        delete eraseNode->_parent->_right;
                         eraseNode->_parent->_right = eraseNode->_right;
                     }
                     else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
                         eraseNode->_right->_parent = eraseNode->_parent;
+                        delete eraseNode->_left->_right;
                         eraseNode->_parent->_left = eraseNode->_right;
                     }
                 }
+                this->_nbNode--;
             }
             else
             {
