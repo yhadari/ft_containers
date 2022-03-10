@@ -8,10 +8,11 @@ class BstNode{
     T           _data;
     BstNode*    _left;
     BstNode*    _right;
+    BstNode*    _parent;
     int         _nbNode;
 
     public:
-    BstNode() : _left(NULL), _right(NULL), _nbNode(0){};
+    BstNode() : _left(NULL), _right(NULL), _parent(NULL), _nbNode(0){};
     T           get_data(){return this->_data;};
     BstNode*    get_left(){return this->_left;};
     BstNode*    get_right(){return this->_right;};
@@ -31,6 +32,7 @@ class BstNode{
             this->_nbNode++;
             if (!this->_left)
                 this->_left = new(BstNode<T>);
+            this->_left->_parent = this;
             return this->_left->insert(data);
         }
         else
@@ -38,6 +40,7 @@ class BstNode{
             this->_nbNode++;
             if (!this->_right)
                 this->_right = new(BstNode<T>);
+            this->_right->_parent = this;
             return this->_right->insert(data);
         }
     }
@@ -47,8 +50,20 @@ class BstNode{
         if (eraseNode){
             if (!eraseNode->_left && !eraseNode->_right)
             {
-                eraseNode = NULL;
+                if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data))
+                {
+                    delete eraseNode->_parent->_right;
+                    eraseNode->_parent->_right = NULL;
+                }
+                else
+                {
+                    delete eraseNode->_parent->_left;
+                    eraseNode->_parent->_left = NULL;
+                }
                 this->_nbNode--;
+            }
+            else if ((eraseNode->_left && !eraseNode->_right) || (!eraseNode->_left && eraseNode->_right))
+            {
             }
         }
     }
