@@ -8,7 +8,8 @@ int main(){
     rootPtr->insert(40);
     rootPtr->insert(70);
     rootPtr->insert(60);
-    rootPtr->erase(50);
+    rootPtr->insert(35);
+    rootPtr->insert(55);
     std::cout << "Number Nodes : " << rootPtr->get_nbNode() << std::endl;
     std::cout << "-------------inorder-------------" << std::endl;
     BstNode<int>::inorder(rootPtr);

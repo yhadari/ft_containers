@@ -45,14 +45,11 @@ class BstNode{
         }
     }
 
-    BstNode*        get_small_leaf(BstNode *node){
-        if (node)
-        {
-            if (!node->_left)
-                return node;
-            get_small_leaf(node->_left);
-        }
-        return NULL;
+    BstNode*        get_small_leaf(BstNode* node)
+    {
+        while (node->_left)
+            node = node->_left;
+        return node;
     }
 
     void            erase(T data){
