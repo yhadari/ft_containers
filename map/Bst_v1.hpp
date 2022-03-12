@@ -37,14 +37,16 @@ class BstNode{
             return false;
         if (this->_data > data)
         {
-            if (!this->_left && ++this->_nbNode)
+            this->_nbNode++;
+            if (!this->_left)
                 this->_left = new(BstNode<T>);
             this->_left->_parent = this;
             return this->_left->insert(data);
         }
         else
         {
-            if (!this->_right && ++this->_nbNode)
+            this->_nbNode++;
+            if (!this->_right)
                 this->_right = new(BstNode<T>);
             this->_right->_parent = this;
             return this->_right->insert(data);
@@ -56,6 +58,26 @@ class BstNode{
         while (node->_left)
             node = node->_left;
         return node;
+    }
+
+    void        erasewithchild(BstNode* eraseNode, BstNode* sideNode)
+    {
+        if (!eraseNode->_parent){
+            T data = sideNode->_data;
+            erase(sideNode->_data);
+            this->_data = data;
+            this->_nbNode++;
+        }
+        else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+            sideNode->_parent = eraseNode->_parent;
+            delete eraseNode->_parent->_right;
+            eraseNode->_parent->_right = sideNode;
+        }
+        else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
+            sideNode->_parent = eraseNode->_parent;
+            delete eraseNode->_parent->_left;
+            eraseNode->_parent->_left = sideNode;
+        }
     }
 
     void        erase(T data){
@@ -76,42 +98,10 @@ class BstNode{
                 this->_nbNode--;
             }
             else if ((eraseNode->_left && !eraseNode->_right) || (!eraseNode->_left && eraseNode->_right)){
-                if ((eraseNode->_left && !eraseNode->_right)){
-                    if (!eraseNode->_parent){
-                        T data = eraseNode->_left->_data;
-                        erase(eraseNode->_left->_data);
-                        this->_data = data;
-                        this->_nbNode++;
-                    }
-                    else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
-                        eraseNode->_left->_parent = eraseNode->_parent;
-                        delete eraseNode->_parent->_right;
-                        eraseNode->_parent->_right = eraseNode->_left;
-                    }
-                    else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
-                        eraseNode->_left->_parent = eraseNode->_parent;
-                        delete eraseNode->_parent->_left;
-                        eraseNode->_parent->_left = eraseNode->_left;
-                    }
-                }
-                else{
-                    if (!eraseNode->_parent){
-                        T data = eraseNode->_right->_data;
-                        erase(eraseNode->_right->_data);
-                        this->_data = data;
-                        this->_nbNode++;
-                    }
-                    else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
-                        eraseNode->_right->_parent = eraseNode->_parent;
-                        delete eraseNode->_parent->_right;
-                        eraseNode->_parent->_right = eraseNode->_right;
-                    }
-                    else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
-                        eraseNode->_right->_parent = eraseNode->_parent;
-                        delete eraseNode->_parent->_left;
-                        eraseNode->_parent->_left = eraseNode->_right;
-                    }
-                }
+                if ((eraseNode->_left && !eraseNode->_right))
+                    erasewithchild(eraseNode, eraseNode->_left);
+                else
+                    erasewithchild(eraseNode, eraseNode->_right);
                 this->_nbNode--;
             }
             else
