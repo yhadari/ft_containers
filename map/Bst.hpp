@@ -17,6 +17,14 @@ class BstNode{
     BstNode*    get_left(){return this->_left;};
     BstNode*    get_right(){return this->_right;};
     int         get_nbNode(){return this->_nbNode;};
+    BstNode&    operator=(BstNode const &node)
+    {
+        this->_left = node._left;
+        this->_right = node._right;
+        this->_parent = node._parent;
+        this->_nbNode = node._nbNode;
+        return *this;
+    }
 
     bool        insert(T data)
     {
@@ -29,34 +37,35 @@ class BstNode{
             return false;
         if (this->_data > data)
         {
-            this->_nbNode++;
-            if (!this->_left)
+            if (!this->_left && ++this->_nbNode)
                 this->_left = new(BstNode<T>);
             this->_left->_parent = this;
             return this->_left->insert(data);
         }
         else
         {
-            this->_nbNode++;
-            if (!this->_right)
+            if (!this->_right && ++this->_nbNode)
                 this->_right = new(BstNode<T>);
             this->_right->_parent = this;
             return this->_right->insert(data);
         }
     }
 
-    BstNode*        get_small_leaf(BstNode* node)
+    BstNode*    get_small_leaf(BstNode* node)
     {
         while (node->_left)
             node = node->_left;
         return node;
     }
 
-    void            erase(T data){
+    void        erase(T data){
         BstNode *eraseNode = find(data);
         if (eraseNode){
             if (!eraseNode->_left && !eraseNode->_right){
-                if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+                if (!eraseNode->_parent){
+                    delete this;
+                }
+                else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                     delete eraseNode->_parent->_right;
                     eraseNode->_parent->_right = NULL;
                 }
@@ -68,7 +77,13 @@ class BstNode{
             }
             else if ((eraseNode->_left && !eraseNode->_right) || (!eraseNode->_left && eraseNode->_right)){
                 if ((eraseNode->_left && !eraseNode->_right)){
-                    if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+                    if (!eraseNode->_parent){
+                        T data = eraseNode->_left->_data;
+                        erase(eraseNode->_left->_data);
+                        this->_data = data;
+                        this->_nbNode++;
+                    }
+                    else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                         eraseNode->_left->_parent = eraseNode->_parent;
                         delete eraseNode->_parent->_right;
                         eraseNode->_parent->_right = eraseNode->_left;
@@ -80,14 +95,20 @@ class BstNode{
                     }
                 }
                 else{
-                    if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
+                    if (!eraseNode->_parent){
+                        T data = eraseNode->_right->_data;
+                        erase(eraseNode->_right->_data);
+                        this->_data = data;
+                        this->_nbNode++;
+                    }
+                    else if (eraseNode->_parent->_right && (eraseNode->_data == eraseNode->_parent->_right->_data)){
                         eraseNode->_right->_parent = eraseNode->_parent;
                         delete eraseNode->_parent->_right;
                         eraseNode->_parent->_right = eraseNode->_right;
                     }
                     else if (eraseNode->_parent->_left && (eraseNode->_data == eraseNode->_parent->_left->_data)){
                         eraseNode->_right->_parent = eraseNode->_parent;
-                        delete eraseNode->_left->_right;
+                        delete eraseNode->_parent->_left;
                         eraseNode->_parent->_left = eraseNode->_right;
                     }
                 }
@@ -103,7 +124,7 @@ class BstNode{
         }
     }
 
-    BstNode*        find(T data){
+    BstNode*    find(T data){
         if (!this->_nbNode)
             return NULL;
         if (this->_data == data)

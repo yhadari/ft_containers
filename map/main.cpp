@@ -2,14 +2,9 @@
 
 int main(){
     BstNode<int> *rootPtr = new(BstNode<int>);
-    rootPtr->insert(50);
-    rootPtr->insert(30);
-    rootPtr->insert(20);
-    rootPtr->insert(40);
-    rootPtr->insert(70);
-    rootPtr->insert(60);
-    rootPtr->insert(35);
-    rootPtr->insert(55);
+    rootPtr->insert(8);
+    rootPtr->insert(3);
+    rootPtr->insert(3);
     std::cout << "Number Nodes : " << rootPtr->get_nbNode() << std::endl;
     std::cout << "-------------inorder-------------" << std::endl;
     BstNode<int>::inorder(rootPtr);
