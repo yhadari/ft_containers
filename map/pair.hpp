@@ -13,20 +13,16 @@ namespace ft{
 
       first_type first;
       second_type second;
-      
-      pair() : first(0), second(0){
+
+      pair():first(), second(){
       }
 
       template<class U, class V>
-      pair(const pair<U,V>& pr){
-          this->first = pr.first;
-          this->second = pr.second;
-      }
+      pair (const pair<U,V>& pr):first(pr.first), second(pr.second){
+		  }
 
-      pair(const first_type& a, const second_type& b){
-          this->first = a;
-          this->second = b;
-      }
+		  pair (const first_type& a, const second_type& b): first(a), second(b){
+		  }
 
       pair&   operator=(const pair& pr){
           this->first = pr.first;
