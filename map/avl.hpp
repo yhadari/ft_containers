@@ -54,6 +54,38 @@ t_node *leftRotate(t_node *x) {
   return y;
 }
 
+void  inorder(t_node *root)
+{
+    if (root)
+    {
+        inorder(root->left);
+        std::cout << root->key << " ";
+        inorder(root->right);
+    }
+}
+
+// Preorder traversal;  first visits the root node and then traverses the left and the right subtree // for copy !!
+void  preorder(t_node *root)
+{
+    if(root)
+    {
+        std::cout << root->key << " ";
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+// Postorder traversal ;first traverses the left and the right subtree and then visits the root node. It is used to delete the tree.
+void  postorder(t_node *root)
+{
+    if (root)
+    {
+        postorder(root->left);
+        postorder(root->right);
+        std::cout << root->key << " ";
+    }
+}
+
 // Get the balance factor of each node
 int getBalanceFactor(t_node *N) {
   if (N == NULL)
@@ -170,6 +202,31 @@ void printTree(t_node *root, std::string indent, bool last) {
     printTree(root->left, indent, false);
     printTree(root->right, indent, true);
   }
+}
+
+t_node* findMinimum(t_node* root)
+{
+    while (root->left)
+      root = root->left;
+    return root;
+}
+
+t_node* nextNode(t_node* root, t_node* succ, t_node* x)
+{
+    if (!root)
+        return succ;
+    if (root->key == x->key)
+    {
+      if (root->right)
+        return findMinimum(root->right);
+    }
+    else if (x->key < root->key){
+        succ = root;
+        return nextNode(root->left, succ, x);
+    }
+    else
+      return nextNode(root->right, succ, x);
+    return succ;
 }
 
 #endif
