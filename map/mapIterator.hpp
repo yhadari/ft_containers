@@ -24,20 +24,35 @@ namespace ft{
         MapIterator(t_node p): _node(p){}
         MapIterator(MapIterator const& copy): _node(copy._node){}
         MapIterator&     operator=(MapIterator const& it){
+            if (*this == it)
+				return (*this);
             this->_node = it._node;
+            this->_root = it._root;
             return *this;
         }
-        // MapIterator&     operator++(){
-        //     this->_ptr++;
-        //     return *this;
-        // }
-        // MapIterator      operator++(int){
-        //     VectorIterator temp = *this;
-        //     ++(*this);
-        //     return temp;
-        // }
+        MapIterator&     operator++(){
+            this->_node = nextNode(this->_root, this->_node);
+            return *this;
+        }
+        MapIterator      operator++(int){
+            MapIterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+        MapIterator&     operator--(){
+            this->_node = previousNode(this->_root, this->_node);
+            return *this;
+        }
+        MapIterator      operator--(int){
+            MapIterator temp = *this;
+            --(*this);
+            return temp;
+        }
+        bool                operator==(MapIterator const& it) const{
+            return  ((this->_node == it._node) && (this->_root == it._root));
+        }
         bool                operator!=(MapIterator const& it) const{
-            return  this->_node != it._node;
+            return  ((this->_node != it._node) || (this->_root != it._root));
         }
         reference           operator*() const{
             return  this->_node.key;
@@ -46,8 +61,10 @@ namespace ft{
             return (this->_node.key = t);
         }
         pointer             operator->() const{
-            return this->_node;
+            return &this->_node->key;
         }
+
+        ~MapIterator(void){};
     };
 }
 

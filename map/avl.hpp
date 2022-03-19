@@ -1,6 +1,5 @@
 #ifndef AVL_HPP
 #define AVL_HPP
-// AVL tree implementation in C++
 
 #include <iostream>
 
@@ -11,7 +10,6 @@ typedef struct  s_node {
   int       height;
 }               t_node;
 
-// Calculate height
 int height(t_node *N) {
   if (N == NULL)
     return 0;
@@ -22,7 +20,6 @@ int max(int a, int b) {
   return (a > b) ? a : b;
 }
 
-// New node creation
 t_node *newt_node(int key) {
   t_node *node = new t_node();
   node->key = key;
@@ -32,7 +29,6 @@ t_node *newt_node(int key) {
   return (node);
 }
 
-// Rotate right
 t_node *rightRotate(t_node *y) {
   t_node *x = y->left;
   t_node *T2 = x->right;
@@ -43,7 +39,6 @@ t_node *rightRotate(t_node *y) {
   return x;
 }
 
-// Rotate left
 t_node *leftRotate(t_node *x) {
   t_node *y = x->right;
   t_node *T2 = y->left;
@@ -64,7 +59,6 @@ void  inorder(t_node *root)
     }
 }
 
-// Preorder traversal;  first visits the root node and then traverses the left and the right subtree // for copy !!
 void  preorder(t_node *root)
 {
     if(root)
@@ -75,7 +69,6 @@ void  preorder(t_node *root)
     }
 }
 
-// Postorder traversal ;first traverses the left and the right subtree and then visits the root node. It is used to delete the tree.
 void  postorder(t_node *root)
 {
     if (root)
@@ -86,14 +79,12 @@ void  postorder(t_node *root)
     }
 }
 
-// Get the balance factor of each node
 int getBalanceFactor(t_node *N) {
   if (N == NULL)
     return 0;
   return height(N->left) - height(N->right);
 }
 
-// Insert a node
 t_node *insertt_node(t_node *node, int key) {
   // Find the correct postion and insert the node
   if (node == NULL)
@@ -128,15 +119,20 @@ t_node *insertt_node(t_node *node, int key) {
   return node;
 }
 
-// t_node with minimum value
-t_node *nodeWithMimumValue(t_node *node) {
-  t_node *current = node;
-  while (current->left != NULL)
-    current = current->left;
-  return current;
+t_node* findMin(t_node* root)
+{
+    while (root->left)
+      root = root->left;
+    return root;
 }
 
-// Delete a node
+t_node* findMax(t_node* root)
+{
+    while (root->right)
+        root = root->right;
+    return root;
+}
+
 t_node *deletet_node(t_node *root, int key) {
   // Find the node and delete it
   if (root == NULL)
@@ -155,7 +151,7 @@ t_node *deletet_node(t_node *root, int key) {
         *root = *temp;
       free(temp);
     } else {
-      t_node *temp = nodeWithMimumValue(root->right);
+      t_node *temp = findMin(root->right);
       root->key = temp->key;
       root->right = deletet_node(root->right, temp->key);
     }
@@ -187,7 +183,6 @@ t_node *deletet_node(t_node *root, int key) {
   return root;
 }
 
-// Print the tree
 void printTree(t_node *root, std::string indent, bool last) {
   if (root != nullptr) {
     std::cout << indent;
@@ -202,20 +197,6 @@ void printTree(t_node *root, std::string indent, bool last) {
     printTree(root->left, indent, false);
     printTree(root->right, indent, true);
   }
-}
-
-t_node* findMin(t_node* root)
-{
-    while (root->left)
-      root = root->left;
-    return root;
-}
-
-t_node* findMax(t_node* root)
-{
-    while (root->right)
-        root = root->right;
-    return root;
 }
 
 t_node* nextNode(t_node* root, t_node* x)
