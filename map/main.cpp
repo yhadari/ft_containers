@@ -17,7 +17,8 @@ int main() {
   std::cout << "After deleting " << std::endl;
   std::cout<<"balance nb : "<<getBalanceFactor(root)<<std::endl;
   printTree(root, "", true);*/
-  root = nextNode(root, nullptr, root->left->left->right);
+  //root = nextNode(root, root->left->left->right);
+  root = previousNode(root, root);
   int i = root->key;
   std::cout << i << std::endl;
 }

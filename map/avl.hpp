@@ -204,29 +204,64 @@ void printTree(t_node *root, std::string indent, bool last) {
   }
 }
 
-t_node* findMinimum(t_node* root)
+t_node* findMin(t_node* root)
 {
     while (root->left)
       root = root->left;
     return root;
 }
 
-t_node* nextNode(t_node* root, t_node* succ, t_node* x)
+t_node* findMax(t_node* root)
 {
+    while (root->right)
+        root = root->right;
+    return root;
+}
+
+t_node* nextNode(t_node* root, t_node* x)
+{
+    t_node* succ = NULL;
     if (!root)
-        return succ;
-    if (root->key == x->key)
-    {
-      if (root->right)
-        return findMinimum(root->right);
+        return NULL;
+    while (1){
+        if (x->key < root->key){
+            succ = root;
+            root = root->left;
+        }
+        else if (x->key > root->key)
+            root = root->right;
+        else {
+            if (root->right)
+                succ = findMin(root->right);
+            break;
+        }
+        if (!root)
+          return succ;
     }
-    else if (x->key < root->key){
-        succ = root;
-        return nextNode(root->left, succ, x);
-    }
-    else
-      return nextNode(root->right, succ, x);
     return succ;
+}
+
+t_node* previousNode(t_node* root, t_node* x)
+{
+    t_node* prec = NULL;
+    if (!root)
+        return NULL;
+    while (1){
+        if (x->key < root->key)
+            root = root->left;
+        else if (x->key > root->key){
+            prec = root;
+            root = root->right;
+        }
+        else {
+            if (root->left)
+                prec = findMax(root->left);
+            break;
+        }
+        if (!root)
+          return prec;
+    }
+    return prec;
 }
 
 #endif
