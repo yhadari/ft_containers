@@ -1,5 +1,6 @@
 #include "avl.hpp"
 #include "mapIterator.hpp"
+#include <map>
 
 int main() {
   t_node *root = NULL;
@@ -14,9 +15,8 @@ int main() {
   root = insertt_node(root, 50);
 
   ft::MapIterator<int> it(root, root);
-  std::cout << *it << std::endl;
-  it--;
-  std::cout << *it << std::endl;
+  ft::MapIterator<int> it1(it);
+  std::cout << *it << *it1 << std::endl;
   /*std::cout<<"balance nb : "<<getBalanceFactor(root)<<std::endl;
   printTree(root, "", true); 
   root = insertt_node(root, 0);
