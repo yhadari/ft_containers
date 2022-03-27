@@ -3,28 +3,23 @@
 #include <map>
 
 int main() {
-  t_node *root = NULL;
-  root = insertt_node(root, 33);
-  root = insertt_node(root, 13);
-  root = insertt_node(root, 53);
-  root = insertt_node(root, 9);
-  root = insertt_node(root, 21);
-  root = insertt_node(root, 61);
-  root = insertt_node(root, 8);
-  root = insertt_node(root, 11);
-  root = insertt_node(root, 50);
+  ft::Avl<int, int> *avl = new ft::Avl<int, int>();
+  ft::pair<int, int> p(10, 100);
+  ft::pair<int, int> p1(11, 200);
+  ft::pair<int, int> p2(12, 300);
+  ft::pair<int, int> p3(13, 400);
 
-  ft::MapIterator<int> it(root, root);
-  ft::MapIterator<int> it1(it);
-  std::cout << *it << *it1 << std::endl;
-  /*std::cout<<"balance nb : "<<getBalanceFactor(root)<<std::endl;
-  printTree(root, "", true); 
-  root = insertt_node(root, 0);
-  std::cout << "After deleting " << std::endl;
-  std::cout<<"balance nb : "<<getBalanceFactor(root)<<std::endl;
-  printTree(root, "", true);*/
-  //root = nextNode(root, root->left->left->right);
-  root = previousNode(root, root);
-  int i = root->key;
-  std::cout << i << std::endl;
+  avl->set_root(avl->insert(avl->get_root(), p));
+  avl->set_root(avl->insert(avl->get_root(), p1));
+  avl->set_root(avl->insert(avl->get_root(), p2));
+  avl->set_root(avl->insert(avl->get_root(), p3));
+
+  ft::MapIterator<ft::pair<int, int> > it(avl, avl);
+  std::cout << *it << std::endl;
+  std::cout << *it-- << std::endl;
+  // avl->printTree(avl->get_root(), "", true);
+  // avl->set_root(avl->deletet(avl->get_root(), p2));
+  // avl->set_root(avl->deletet(avl->get_root(), p));
+
+  return 0;
 }
