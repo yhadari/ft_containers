@@ -20,10 +20,10 @@ namespace ft{
   class Avl{
 
     public:
-    typedef ft::pair<const Key, T>                              value_type;
-    typedef ft::Node<ft::pair<const Key, T> >                   node_type;
-    typedef Alloc                                               allocator_pair_type;
-    typedef std::allocator<ft::Node<ft::pair<const Key, T> > >  allocator_node_type;
+    typedef ft::pair<const Key, T>      value_type;
+    typedef ft::Node<value_type>        node_type;
+    typedef Alloc                       allocator_pair_type;
+    typedef std::allocator<node_type>   allocator_node_type;
 
     private:
       node_type             *_root;
@@ -34,6 +34,13 @@ namespace ft{
 
     Avl() : _root(NULL){
     }
+
+    Avl&  operator=(const Avl &avl){
+			if (*this == avl)
+				return(*this);
+			this->_root->data = avl._root->data;
+			return (*this);
+		}
 
     node_type *NewNode(const value_type& val){
       node_type *ptr;
@@ -46,15 +53,19 @@ namespace ft{
       return ptr;
     }
 
-    value_type  get_data(){
-      return *this->_root->data;
+    void  set_data(node_type *data){
+      this->_root->data = data;
+    }
+
+    value_type*  get_data() const{
+      return this->_root->data;
     }
 
     void  set_root(node_type *root){
       this->_root = root;
     }
 
-    node_type  *get_root(){
+    node_type*  get_root(){
       return this->_root;
     }
 

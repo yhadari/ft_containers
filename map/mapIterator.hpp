@@ -3,20 +3,22 @@
 
 #include "../vector/Iterator.hpp"
 #include "avl.hpp"
+#include "make_pair.hpp"
 
 namespace ft{
 
-    template<class pair>
-    class MapIterator : public iterator<std::bidirectional_iterator_tag, pair>{
+    template<class Key, class T>
+    class MapIterator : public iterator<std::bidirectional_iterator_tag, ft::pair<const Key, T> >{
 
         public:
-
+        typedef ft::pair<const Key, T>                                                          pair;
+        // typedef MapIterator<const Key, T>                                                       const_iterator;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::value_type            value_type;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::difference_type       difference_type;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::pointer               pointer;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::reference             reference;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::iterator_category     iterator_category;
-        typedef typename ft::Avl<typename pair::first_type, typename pair::second_type>         avl_type;                                                                     
+        typedef typename ft::Avl<Key, T>                                                        avl_type;                                                                                                                                   
 
         private:
         
@@ -30,7 +32,15 @@ namespace ft{
         MapIterator(MapIterator const& copy){
             *this = copy;
         }
+        // operator            MapIterator<const Key, T>() const
+        // {
+        //     return MapIterator<const Key, T>(this->_node, this->_root);
+        // }
         MapIterator&     operator=(MapIterator const& it){
+            if (*this == it)
+				return (*this);
+            // this->_node->set_root(it._node->get_root());
+            // this->_root->set_root(it._root->get_root());
             this->_node = it._node;
             this->_root = it._root;
             return *this;
@@ -59,14 +69,14 @@ namespace ft{
         bool                operator!=(MapIterator const& it) const{
             return  ((this->_node != it._node) || (this->_root != it._root));
         }
-        typename pair::second_type   operator*() const{
-            return  this->_node->get_data().second;
+        reference        operator*() const{
+            return  *this->_node->get_data();
         }
         reference           operator*(value_type const& t){
-            return (this->_node->key = t);
+            return (this->_node->get_data() = t);
         }
         pointer             operator->() const{
-            return &this->_node->key;
+            return &this->_node->get_data();
         }
         ~MapIterator(void){};
     };
