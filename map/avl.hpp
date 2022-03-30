@@ -3,18 +3,9 @@
 
 #include <iostream>
 #include "pair.hpp"
+#include "Node.hpp"
 
 namespace ft{
-
-  template <class pair>
-  struct Node{
-    typedef pair  value_type;
-
-    value_type  *data;
-    Node        *left;
-    Node        *right;
-    int         height;
-  };
 
   template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > > // remove
   class Avl{
@@ -36,9 +27,7 @@ namespace ft{
     }
 
     Avl&  operator=(const Avl &avl){
-			if (*this == avl)
-				return(*this);
-			this->_root->data = avl._root->data;
+      this->_root = avl._root;
 			return (*this);
 		}
 
