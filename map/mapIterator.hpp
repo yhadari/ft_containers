@@ -57,10 +57,10 @@ namespace ft{
             return temp;
         }
         bool                operator==(MapIterator const& it) const{
-            return  ((&this->_node == &it._node) && (&this->_root == &it._root));
+            return  ((this->_node == it._node) && (this->_root == it._root));
         }
         bool                operator!=(MapIterator const& it) const{
-            return  ((&this->_node != &it._node) || (&this->_root != &it._root));
+            return  ((this->_node != it._node) || (this->_root != it._root));
         }
         reference        operator*() const{
             return  *(this->_node.get_data());
@@ -69,7 +69,7 @@ namespace ft{
             return (this->_node.get_data() = t);
         }
         pointer             operator->() const{
-            return &this->_node.get_data();
+            return this->_node.get_data();
         }
         ~MapIterator(void){};
     };

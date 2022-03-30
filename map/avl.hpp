@@ -54,7 +54,7 @@ namespace ft{
       this->_root = root;
     }
 
-    node_type*  get_root(){
+    node_type*  get_root() const{
       return this->_root;
     }
 
@@ -282,6 +282,14 @@ namespace ft{
               return prec;
         }
         return prec;
+    }
+
+    bool  operator==(Avl const& avl) const{
+      return this->_root == avl._root;
+    }
+
+    bool  operator!=(Avl const& avl) const{
+      return this->_root != avl._root;
     }
 
   };

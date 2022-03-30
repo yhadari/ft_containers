@@ -19,12 +19,9 @@ std::cout <<"------------------------- FT : ----------------------------"<<std::
         // tree->printTree(tree->getRoot(), "", true);
         
         ft::MapIterator<int, float> it(tree, tree);
-        ft::MapIterator<int, float> it1(tree, tree);
+        ft::MapIterator<int, float> it1;
 
-        std::cout << "Iterator = " <<(*it).first << std::endl;
-        bool i = it == it1;
-        std::cout << i<<std::endl;
-
+        std::cout << "Iterator = " <<it->second << std::endl;
         // std::cout << tree->getData()->first << std::endl;
         // while(1);
     }
@@ -44,12 +41,8 @@ std::cout <<"------------------------- FT : ----------------------------"<<std::
         // tree->printTree(tree->getRoot(), "", true);
         
         std::map<int, float>::iterator it = map.begin();
-        std::map<int, float>::iterator it1 = map.begin();
-
-        std::cout << "Iterator = " <<(*it).first << std::endl;
-        bool i = it == it1;
-        std::cout << i<<std::endl;
-
+        std::map<int, float>::iterator it1;
+        std::cout << "Iterator = " <<it->second << std::endl;
         // std::cout << tree->getData()->first << std::endl;
         // while(1);
     }
