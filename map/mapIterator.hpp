@@ -39,7 +39,7 @@ namespace ft{
             return *this;
         }
         MapIterator&     operator++(){
-            this->_node.set_root(this->_root.nextNode(this->_node.get_root()));
+            this->_node._root = this->_root.nextNode(this->_node._root);
             return *this;
         }
         MapIterator      operator++(int){
@@ -48,7 +48,7 @@ namespace ft{
             return temp;
         }
         MapIterator&     operator--(){
-            this->_node.set_root(this->_root.previousNode(this->_node.get_root()));
+            this->_node._root = this->_root.previousNode(this->_node._root);
             return *this;
         }
         MapIterator      operator--(int){
@@ -63,13 +63,13 @@ namespace ft{
             return  ((this->_node != it._node) || (this->_root != it._root));
         }
         reference        operator*() const{
-            return  *(this->_node.get_data());
+            return  *(this->_node._root->data);
         }
         reference           operator*(value_type const& t){
-            return (this->_node.get_data() = t);
+            return (this->_node._root->data = t);
         }
         pointer             operator->() const{
-            return this->_node.get_data();
+            return this->_node._root->data;
         }
         ~MapIterator(void){};
     };

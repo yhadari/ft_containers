@@ -41,22 +41,6 @@ namespace ft{
       return ptr;
     }
 
-    void  set_data(node_type *data){
-      this->_root->data = data;
-    }
-
-    value_type*  get_data() const{
-      return this->_root->data;
-    }
-
-    void  set_root(node_type *root){
-      this->_root = root;
-    }
-
-    node_type*  get_root() const{
-      return this->_root;
-    }
-
     int Height(node_type *N) {
       if (N == NULL)
         return 0;
@@ -141,9 +125,9 @@ namespace ft{
       // Find the correct postion and insert the node
       if (node == NULL)
         return (NewNode(val));
-      if (val.first < node->data->first)
+      if (this->_compare(val.first, node->data->first))
         node->left = insert(node->left, val);
-      else if (val.first > node->data->first)
+      else if (!this->_compare(val.first, node->data->first))
         node->right = insert(node->right, val);
       else
         return node;
@@ -153,17 +137,17 @@ namespace ft{
       node->height = 1 + max(Height(node->left), Height(node->right));
       int balanceFactor = getBalanceFactor(node);
       if (balanceFactor > 1) {
-        if (val.first < node->left->data->first) {
+        if (this->_compare(val.first, node->left->data->first)) {
           return rightRotate(node);
-        } else if (val.first > node->left->data->first) {
+        } else if (!this->_compare(val.first, node->left->data->first)) {
           node->left = leftRotate(node->left);
           return rightRotate(node);
         }
       }
       if (balanceFactor < -1) {
-        if (val.first > node->right->data->first) {
+        if (!this->_compare(val.first, node->right->data->first)) {
           return leftRotate(node);
-        } else if (val.first < node->right->data->first) {
+        } else if (this->_compare(val.first, node->right->data->first)) {
           node->right = rightRotate(node->right);
           return leftRotate(node);
         }
@@ -175,9 +159,9 @@ namespace ft{
       // Find the node and delete it
       if (root == NULL)
         return root;
-      if (val.first < root->data->first)
+      if (this->_compare(val.first, root->data->first))
         root->left = deletet(root->left, val);
-      else if (val.first > root->data->first)
+      else if (!this->_compare(val.first, root->data->first))
         root->right = deletet(root->right, val);
       else {
         if ((root->left == NULL) || (root->right == NULL)) {
@@ -243,11 +227,11 @@ namespace ft{
         if (!this->_root)
             return NULL;
         while (1){
-            if (x->data->first < this->_root->data->first){
+            if (this->_compare(x->data->first, this->_root->data->first)){
                 succ = this->_root;
                 this->_root = this->_root->left;
             }
-            else if (x->data->first > this->_root->data->first)
+            else if (!this->_compare(x->data->first, this->_root->data->first))
                 this->_root = this->_root->right;
             else {
                 if (this->_root->right)
@@ -266,9 +250,9 @@ namespace ft{
         if (!this->_root)
             return NULL;
         while (1){
-            if (x->data->first < this->_root->data->first)
+            if (this->_compare(x->data->first, this->_root->data->first))
                 this->_root = this->_root->left;
-            else if (x->data->first > this->_root->data->first){
+            else if (!this->_compare(x->data->first, this->_root->data->first)){
                 prec = this->_root;
                 this->_root = this->_root->right;
             }
