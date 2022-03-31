@@ -12,7 +12,6 @@ namespace ft{
         Node        *left;
         value_type  *data;
         int         height;
-
     };  
 }
 

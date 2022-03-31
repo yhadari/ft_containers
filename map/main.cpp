@@ -21,7 +21,12 @@ std::cout <<"------------------------- FT : ----------------------------"<<std::
         ft::MapIterator<int, float> it(tree, tree);
         ft::MapIterator<int, float> it1;
 
+        it1 = it;
         std::cout << "Iterator = " <<it->second << std::endl;
+        std::cout << "Iterator = " <<it1->second << std::endl;
+        it1++;
+        std::cout << "Iterator = " <<it->second << std::endl;
+        std::cout << "Iterator = " <<it1->second << std::endl;
         // std::cout << tree->getData()->first << std::endl;
         // while(1);
     }
@@ -42,7 +47,12 @@ std::cout <<"------------------------- FT : ----------------------------"<<std::
         
         std::map<int, float>::iterator it = map.begin();
         std::map<int, float>::iterator it1;
+        it1 = it;
         std::cout << "Iterator = " <<it->second << std::endl;
+        std::cout << "Iterator = " <<it1->second << std::endl;
+        it1++;
+        std::cout << "Iterator = " <<it->second << std::endl;
+        std::cout << "Iterator = " <<it1->second << std::endl;
         // std::cout << tree->getData()->first << std::endl;
         // while(1);
     }

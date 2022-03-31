@@ -7,21 +7,20 @@
 
 namespace ft{
 
-  template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > > // remove
+  template < class Key, class T, class Compare, class Alloc >
   class Avl{
 
     public:
     typedef ft::pair<const Key, T>      value_type;
     typedef ft::Node<value_type>        node_type;
     typedef Alloc                       allocator_pair_type;
+    typedef Compare                     campare_type;
     typedef std::allocator<node_type>   allocator_node_type;
 
-    private:
-      node_type             *_root;
-      allocator_pair_type   _pair_allocator;
-      allocator_node_type   _node_allocator;
-
-    public:
+    node_type             *_root;
+    allocator_pair_type   _pair_allocator;
+    allocator_node_type   _node_allocator;
+    campare_type          _compare;
 
     Avl() : _root(NULL){
     }

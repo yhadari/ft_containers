@@ -7,7 +7,7 @@
 
 namespace ft{
 
-    template<class Key, class T>
+    template <class Key, class T, class Compare, class Alloc >
     class MapIterator : public iterator<std::bidirectional_iterator_tag, ft::pair<const Key, T> >{
 
         public:
@@ -17,7 +17,7 @@ namespace ft{
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::pointer               pointer;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::reference             reference;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::iterator_category     iterator_category;
-        typedef typename ft::Avl<Key, T>                                                        avl_type;                                                                                                                                   
+        typedef typename ft::Avl<Key, T, Compare, Alloc>                                        avl_type;                                                                                                                                   
 
         private:
         
