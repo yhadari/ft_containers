@@ -27,8 +27,10 @@ int main()
         // tree->setRoot(tree->deleteNode(tree->getRoot(), p1)); //delete node
         // tree->printTree(tree->getRoot(), "", true);
 
-        ft::MapIterator<int, float>  it(tree, tree);
-        ft::MapIterator<int, float>  it2(tree, tree);
+        ft::MapIterator<int, float>  it(tree);
+        ft::MapIterator<int, float>  it2(tree);
+        std::cout << "it " << (*it2).first << std::endl;
+        it2++;
         std::cout << "it " << (*it2).first << std::endl;
         it2++;
         std::cout << "it " << (*it2).first << std::endl;

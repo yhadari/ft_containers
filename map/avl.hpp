@@ -18,27 +18,29 @@ namespace ft{
     typedef std::allocator<node_type>   allocator_node_type;
 
     node_type             *_root;
+    node_type             *_ptr;
     allocator_pair_type   _pair_allocator;
     allocator_node_type   _node_allocator;
     campare_type          _compare;
 
-    Avl() : _root(NULL){
+    Avl() : _root(NULL), _ptr(NULL){
     }
 
     Avl&  operator=(const Avl &avl){
       this->_root = avl._root;
+      this->_ptr = avl._ptr;
 			return (*this);
 		}
 
     node_type *NewNode(const value_type& val){
-      node_type *ptr;
-      ptr = this->_node_allocator.allocate(1);
-      ptr->data = this->_pair_allocator.allocate(1);
-      this->_pair_allocator.construct(ptr->data, val);
-      ptr->left = NULL;
-      ptr->right = NULL;
-      ptr->height = 1;
-      return ptr;
+      node_type *node;
+      node = this->_node_allocator.allocate(1);
+      node->data = this->_pair_allocator.allocate(1);
+      this->_pair_allocator.construct(node->data, val);
+      node->left = NULL;
+      node->right = NULL;
+      node->height = 1;
+      return node;
     }
 
     int Height(node_type *N) {
@@ -268,11 +270,11 @@ namespace ft{
     }
 
     bool  operator==(Avl const& avl) const{
-      return this->_root == avl._root;
+      return ((this->_root == avl._root) && (this->_ptr == avl._ptr));
     }
 
     bool  operator!=(Avl const& avl) const{
-      return this->_root != avl._root;
+      return ((this->_root != avl._root) || (this->_ptr != avl._ptr));
     }
 
   };
