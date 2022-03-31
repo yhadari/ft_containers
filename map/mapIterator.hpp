@@ -7,7 +7,7 @@
 
 namespace ft{
 
-    template <class Key, class T, class Compare, class Alloc >
+    template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > >
     class MapIterator : public iterator<std::bidirectional_iterator_tag, ft::pair<const Key, T> >{
 
         public:
@@ -39,7 +39,7 @@ namespace ft{
             return *this;
         }
         MapIterator&     operator++(){
-            this->_node._root = this->_root.nextNode(this->_node._root);
+            this->_node._root = this->_root.nextNode(this->_root._root, this->_node._root);
             return *this;
         }
         MapIterator      operator++(int){
@@ -48,7 +48,7 @@ namespace ft{
             return temp;
         }
         MapIterator&     operator--(){
-            this->_node._root = this->_root.previousNode(this->_node._root);
+            this->_node._root = this->_root.previousNode(this->_root._root, this->_node._root);
             return *this;
         }
         MapIterator      operator--(int){

@@ -121,38 +121,38 @@ namespace ft{
         return root;
     }
 
-    node_type  *insert(node_type *node, const value_type &val) {
+    node_type  *insert(node_type *root, const value_type &val) {
       // Find the correct postion and insert the node
-      if (node == NULL)
+      if (root == NULL)
         return (NewNode(val));
-      if (this->_compare(val.first, node->data->first))
-        node->left = insert(node->left, val);
-      else if (!this->_compare(val.first, node->data->first))
-        node->right = insert(node->right, val);
+      if (this->_compare(val.first, root->data->first))
+        root->left = insert(root->left, val);
+      else if (!this->_compare(val.first, root->data->first))
+        root->right = insert(root->right, val);
       else
-        return node;
+        return root;
 
       // Update the balance factor of each node and
       // balance the tree
-      node->height = 1 + max(Height(node->left), Height(node->right));
-      int balanceFactor = getBalanceFactor(node);
+      root->height = 1 + max(Height(root->left), Height(root->right));
+      int balanceFactor = getBalanceFactor(root);
       if (balanceFactor > 1) {
-        if (this->_compare(val.first, node->left->data->first)) {
-          return rightRotate(node);
-        } else if (!this->_compare(val.first, node->left->data->first)) {
-          node->left = leftRotate(node->left);
-          return rightRotate(node);
+        if (this->_compare(val.first, root->left->data->first)) {
+          return rightRotate(root);
+        } else if (!this->_compare(val.first, root->left->data->first)) {
+          root->left = leftRotate(root->left);
+          return rightRotate(root);
         }
       }
       if (balanceFactor < -1) {
-        if (!this->_compare(val.first, node->right->data->first)) {
-          return leftRotate(node);
-        } else if (this->_compare(val.first, node->right->data->first)) {
-          node->right = rightRotate(node->right);
-          return leftRotate(node);
+        if (!this->_compare(val.first, root->right->data->first)) {
+          return leftRotate(root);
+        } else if (this->_compare(val.first, root->right->data->first)) {
+          root->right = rightRotate(root->right);
+          return leftRotate(root);
         }
       }
-      return node;
+      return root;
     }
 
     node_type *deletet(node_type *root, const value_type &val) {
@@ -221,47 +221,47 @@ namespace ft{
       }
     }
 
-    node_type* nextNode(node_type* x)
+    node_type* nextNode(node_type* root, node_type* x)
     {
         node_type* succ = NULL;
-        if (!this->_root)
+        if (!root)
             return NULL;
         while (1){
-            if (this->_compare(x->data->first, this->_root->data->first)){
-                succ = this->_root;
-                this->_root = this->_root->left;
+            if (this->_compare(x->data->first, root->data->first)){
+                succ = root;
+                root = root->left;
             }
-            else if (!this->_compare(x->data->first, this->_root->data->first))
-                this->_root = this->_root->right;
+            else if (!this->_compare(x->data->first, root->data->first))
+                root = root->right;
             else {
-                if (this->_root->right)
-                    succ = findMin(this->_root->right);
+                if (root->right)
+                    succ = findMin(root->right);
                 break;
             }
-            if (!this->_root)
+            if (!root)
               return succ;
         }
         return succ;
     }
 
-    node_type*  previousNode(node_type* x)
+    node_type*  previousNode(node_type* root, node_type* x)
     {
         node_type* prec = NULL;
-        if (!this->_root)
+        if (!root)
             return NULL;
         while (1){
-            if (this->_compare(x->data->first, this->_root->data->first))
-                this->_root = this->_root->left;
-            else if (!this->_compare(x->data->first, this->_root->data->first)){
-                prec = this->_root;
-                this->_root = this->_root->right;
+            if (this->_compare(x->data->first, root->data->first))
+                root = root->left;
+            else if (!this->_compare(x->data->first, root->data->first)){
+                prec = root;
+                root = root->right;
             }
             else {
-                if (this->_root->left)
-                    prec = findMax(this->_root->left);
+                if (root->left)
+                    prec = findMax(root->left);
                 break;
             }
-            if (!this->_root)
+            if (!root)
               return prec;
         }
         return prec;

@@ -6,6 +6,8 @@
 #include "make_pair.hpp"
 #include "../vector/Reverse_iterator.hpp"
 #include "mapIterator.hpp"
+#include "../vector/enable_if.hpp"
+#include "../vector/is_integral.hpp"
 
 namespace ft{
 
@@ -33,23 +35,34 @@ namespace ft{
 
         private:
 
-        avl_type        _root;
-        avl_type        _ptr;
+        avl_type        _tree;
         size_type       _size;
 
         public:
 
-        explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), _ptr(), _size(0){
-            this->_root._pair_allocator = alloc;
-            this->_root._pair_allocator = alloc;
-            this->_ptr._compare = comp;
-            this->_ptr._compare = comp;
+        explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _size(0){
+            this->_tree._pair_allocator = alloc;
+            this->_tree._compare = comp;
         }
-        // template <class InputIterator>
-        //     map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-        //     const allocator_type& alloc = allocator_type()){
 
-        //     }
+        template <class InputIterator>
+        map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+        const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+            this->_tree._pair_allocator = alloc;
+            this->_tree._compare = comp;
+            while (first != last){
+                this->_tree._root = this->_tree.insert(this->_tree._root, *first++);
+                this->_size++;
+            }
+        }
+
+        size_type size() const{
+            return this->_size;
+        }
+
+        void    display(){
+            this->_tree.printTree(this->_tree._root, "", true);
+        }
     };
 }
 
