@@ -40,20 +40,30 @@ namespace ft{
 
         public:
 
-        explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _size(0){
+        explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()): _size(0){
             this->_tree._pair_allocator = alloc;
             this->_tree._compare = comp;
         }
 
         template <class InputIterator>
         map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-        const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+        const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()): _size(0){
             this->_tree._pair_allocator = alloc;
             this->_tree._compare = comp;
             while (first != last){
                 this->_tree._root = this->_tree.insert(this->_tree._root, *first++);
                 this->_size++;
             }
+        }
+
+        map (const map& x){
+            *this = x;
+        }
+
+        map&    operator=(const map& m){
+            this->_tree = m._tree;
+            this->_size = m._size;
+            return *this;
         }
 
         size_type size() const{

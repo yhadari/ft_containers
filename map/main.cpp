@@ -29,22 +29,22 @@ int main()
 
         ft::MapIterator<int, float>  it(tree);
         ft::MapIterator<int, float>  it2(tree);
-        std::cout << "it " << (*it2).first << std::endl;
-        it2++;
-        std::cout << "it " << (*it2).first << std::endl;
-        it2++;
-        std::cout << "it " << (*it2).first << std::endl;
-        it2++;
-        std::cout << "it " << (*it2).first << std::endl;
-        it2++;
-        //std::cout << "it " << (*it2).first << std::endl;
-        ft::map<int, float> map1(it, it2);
+        ++it;
+        std::cout << "it -> " << (*it).first << std::endl;
+        ++it;
+        std::cout << "it -> " << (*it).first << std::endl;
+        --it;
+        std::cout << "it -> " << (*it).first << std::endl;
+        // ft::map<int, float> map1(it, it2);
+        // ft::map<int, float> map2(map1);
 
-        std::cout << "size = " <<map1.size() << std::endl;
-        std::cout << "------------------------- Tree : ---------------------------"<<std::endl;
-        tree->printTree(tree->_root, "", true);
-        std::cout << "------------------------- Map : ---------------------------"<<std::endl;
-        map1.display();
+        // std::cout << "size = " <<map1.size() << std::endl;
+        // std::cout << "------------------------- Tree : ---------------------------"<<std::endl;
+        // tree->printTree(tree->_root, "", true);
+        // std::cout << "------------------------- Map1 : ---------------------------"<<std::endl;
+        // map1.display();
+        // std::cout << "------------------------- Map2 : ---------------------------"<<std::endl;
+        // map2.display();
 
     }
 

@@ -29,6 +29,9 @@ namespace ft{
     Avl&  operator=(const Avl &avl){
       this->_root = avl._root;
       this->_ptr = avl._ptr;
+      this->_pair_allocator = avl._pair_allocator;
+      this->_node_allocator = avl._node_allocator;
+      this->_compare = avl._compare;
 			return (*this);
 		}
 
@@ -129,7 +132,7 @@ namespace ft{
         return (NewNode(val));
       if (this->_compare(val.first, root->data->first))
         root->left = insert(root->left, val);
-      else if (!this->_compare(val.first, root->data->first))
+      else if (this->_compare(root->data->first, val.first))
         root->right = insert(root->right, val);
       else
         return root;
@@ -141,13 +144,13 @@ namespace ft{
       if (balanceFactor > 1) {
         if (this->_compare(val.first, root->left->data->first)) {
           return rightRotate(root);
-        } else if (!this->_compare(val.first, root->left->data->first)) {
+        } else if (this->_compare(root->left->data->first, val.first)) {
           root->left = leftRotate(root->left);
           return rightRotate(root);
         }
       }
       if (balanceFactor < -1) {
-        if (!this->_compare(val.first, root->right->data->first)) {
+        if (this->_compare(root->right->data->first, val.first)) {
           return leftRotate(root);
         } else if (this->_compare(val.first, root->right->data->first)) {
           root->right = rightRotate(root->right);
@@ -163,7 +166,7 @@ namespace ft{
         return root;
       if (this->_compare(val.first, root->data->first))
         root->left = deletet(root->left, val);
-      else if (!this->_compare(val.first, root->data->first))
+      else if (this->_compare(root->data->first, val.first))
         root->right = deletet(root->right, val);
       else {
         if ((root->left == NULL) || (root->right == NULL)) {
@@ -233,7 +236,7 @@ namespace ft{
                 succ = root;
                 root = root->left;
             }
-            else if (!this->_compare(x->data->first, root->data->first))
+            else if (this->_compare(root->data->first, x->data->first))
                 root = root->right;
             else {
                 if (root->right)
@@ -254,7 +257,7 @@ namespace ft{
         while (1){
             if (this->_compare(x->data->first, root->data->first))
                 root = root->left;
-            else if (!this->_compare(x->data->first, root->data->first)){
+            else if (this->_compare(root->data->first, x->data->first)){
                 prec = root;
                 root = root->right;
             }
