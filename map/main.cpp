@@ -33,6 +33,7 @@ int main()
         ft::map<int, float> map1(it, it2);
         ft::MapIterator<int, float>  it3 = map1.begin();
         ft::MapIterator<int, float>  it4 = map1.end();
+        //--it4;
         std::cout << "begin is : "<< (*it3).first<<std::endl;
         std::cout << "end is : "<< (*it4).first<<std::endl;
         map1.display();
@@ -51,7 +52,9 @@ int main()
     //     map.insert(p3);
 
     //     std::map<int, float>::iterator it = map.begin();
+    //     std::map<int, float>::iterator it2 = map.end();
     //     std::cout << "Iterator = " <<(*it).first << std::endl;
+    //     std::cout << "Iterator = " <<(*it2).first << std::endl;
     // }
 
     // std::cout << "------------------------- END TESTs -----------------------"<<std::endl;

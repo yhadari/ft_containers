@@ -18,8 +18,8 @@ namespace ft{
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::pointer               pointer;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::reference             reference;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::iterator_category     iterator_category;
-        typedef typename ft::Avl<Key, T, Compare, Alloc>                                        avl_type;                                                                                                                                   
-
+        typedef typename ft::Avl<Key, T, Compare, Alloc>                                        avl_type;    
+                                                                                                                                       
         private:
         avl_type _tree;
 
@@ -48,7 +48,10 @@ namespace ft{
             return temp;
         }
         MapIterator&     operator--(){
-            this->_tree._ptr = this->_tree.previousNode(this->_tree._root, this->_tree._ptr);
+            if (!this->_tree._ptr)
+                this->_tree._ptr = this->_tree.findMax(this->_tree._root);
+            else
+                this->_tree._ptr = this->_tree.previousNode(this->_tree._root, this->_tree._ptr);
             return *this;
         }
         MapIterator      operator--(int){
@@ -63,6 +66,11 @@ namespace ft{
             return  this->_tree != it._tree;
         }
         reference        operator*() const{
+            if (!this->_tree._ptr)
+            {
+                pair *data = this->_tree._pair_allocator.allocate(1);
+                return *data;
+            }
             return  *(this->_tree._ptr->data);
         }
         reference           operator*(value_type const& t){

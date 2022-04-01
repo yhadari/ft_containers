@@ -85,9 +85,8 @@ namespace ft{
         }
 
         iterator end(){
-            this->_tree._ptr = this->_tree.findMax(this->_tree._root);
-            iterator it = iterator(this->_tree._root, this->_tree._ptr);
-            return it;
+            avl_type Node;
+            return iterator(this->_tree._root, Node._ptr);
         }
 
         const_iterator end() const{
