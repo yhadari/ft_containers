@@ -12,6 +12,7 @@ namespace ft{
 
         public:
         typedef ft::pair<const Key, T>                                                          pair;
+        typedef ft::Node<pair>                                                                  node_type;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::value_type            value_type;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::difference_type       difference_type;
         typedef typename iterator<std::bidirectional_iterator_tag, pair>::pointer               pointer;
@@ -24,8 +25,9 @@ namespace ft{
 
         public:
         MapIterator(): _tree(){}
-        MapIterator(avl_type *tree): _tree(*tree){
-            this->_tree._ptr = this->_tree._root;
+        MapIterator(node_type *root, node_type *ptr): _tree(){
+                this->_tree._root = root;
+                this->_tree._ptr = ptr;
         }
         MapIterator(const MapIterator& copy){
             *this = copy;

@@ -51,7 +51,7 @@ namespace ft{
             this->_tree._pair_allocator = alloc;
             this->_tree._compare = comp;
             while (first != last){
-                this->_tree._root = this->_tree.insert(this->_tree._root, *first++);
+                this->_tree._root = this->_tree.insertNode(this->_tree._root, *first++);
                 this->_size++;
             }
         }
@@ -68,6 +68,32 @@ namespace ft{
 
         size_type size() const{
             return this->_size;
+        }
+
+        ~map(){
+            this->_size = 0;
+        }
+        
+        iterator begin(){
+            this->_tree._ptr = this->_tree.findMin(this->_tree._root);
+            return iterator(this->_tree._root, this->_tree._ptr);
+        }
+
+        const_iterator begin() const{
+            this->_tree._ptr = this->_tree.findMin(this->_tree._root);
+            return const_iterator(this->_tree._root, this->_tree._ptr);
+        }
+
+        iterator end(){
+            this->_tree._ptr = this->_tree.findMax(this->_tree._root);
+            iterator it = iterator(this->_tree._root, this->_tree._ptr);
+            return it;
+        }
+
+        const_iterator end() const{
+            this->_tree._ptr = this->_tree.findMax(this->_tree._root);
+            const_iterator it = const_iterator(this->_tree._root, this->_tree._ptr);
+            return it;
         }
 
         void    display(){

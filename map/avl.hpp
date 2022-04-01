@@ -23,15 +23,19 @@ namespace ft{
     allocator_node_type   _node_allocator;
     campare_type          _compare;
 
-    Avl() : _root(NULL), _ptr(NULL){
+    Avl(): _root(NULL), _ptr(NULL){
+    }
+
+    // Avl(node_type* ptr, node_type* root): _ptr(ptr), _root(root){
+    // }
+
+    ~Avl(){
+      // std::cout <<"here"<<std::endl;
     }
 
     Avl&  operator=(const Avl &avl){
       this->_root = avl._root;
       this->_ptr = avl._ptr;
-      this->_pair_allocator = avl._pair_allocator;
-      this->_node_allocator = avl._node_allocator;
-      this->_compare = avl._compare;
 			return (*this);
 		}
 
@@ -126,14 +130,14 @@ namespace ft{
         return root;
     }
 
-    node_type  *insert(node_type *root, const value_type &val) {
+    node_type  *insertNode(node_type *root, const value_type &val) {
       // Find the correct postion and insert the node
       if (root == NULL)
         return (NewNode(val));
       if (this->_compare(val.first, root->data->first))
-        root->left = insert(root->left, val);
+        root->left = insertNode(root->left, val);
       else if (this->_compare(root->data->first, val.first))
-        root->right = insert(root->right, val);
+        root->right = insertNode(root->right, val);
       else
         return root;
 
@@ -160,14 +164,14 @@ namespace ft{
       return root;
     }
 
-    node_type *deletet(node_type *root, const value_type &val) {
+    node_type *deleteNode(node_type *root, const value_type &val) {
       // Find the node and delete it
       if (root == NULL)
         return root;
       if (this->_compare(val.first, root->data->first))
-        root->left = deletet(root->left, val);
+        root->left = deleteNode(root->left, val);
       else if (this->_compare(root->data->first, val.first))
-        root->right = deletet(root->right, val);
+        root->right = deleteNode(root->right, val);
       else {
         if ((root->left == NULL) || (root->right == NULL)) {
           node_type *temp = root->left ? root->left : root->right;
@@ -176,11 +180,11 @@ namespace ft{
             root = NULL;
           } else
             *root = *temp;
-          delete temp;
+          this->_node_allocator.destroy(temp);
         } else {
           node_type *temp = findMin(root->right);
           root->data = temp->data;
-          root->right = deletet(root->right, *temp->data);
+          root->right = deleteNode(root->right, *temp->data);
         }
       }
 

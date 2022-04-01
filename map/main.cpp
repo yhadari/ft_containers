@@ -13,39 +13,30 @@ int main()
         ft::pair<int, float> p4(4, 30);
         ft::pair<int, float> p5(5, 40);
 
-        ft::map<int, float> map;
+        ft::Avl<int, float, std::less<int>, std::allocator<ft::pair<const int, float> > > tree;
 
-        ft::Avl<int, float, std::less<int>, std::allocator<ft::pair<const int, float> > > *tree = 
-        new ft::Avl<int, float, std::less<int>, std::allocator<ft::pair<const int, float> > >();
-
-        tree->_root = tree->insert(tree->_root, p1); // create node
-        tree->_root = tree->insert(tree->_root, p2); // create node
-        tree->_root = tree->insert(tree->_root, p3); // create node
-        tree->_root = tree->insert(tree->_root, p4); // create node
-        tree->_root = tree->insert(tree->_root, p5); // create node
+        tree._root = tree.insertNode(tree._root, p1); // create node
+        tree._root = tree.insertNode(tree._root, p2); // create node
+        tree._root = tree.insertNode(tree._root, p3); // create node
+        tree._root = tree.insertNode(tree._root, p4); // create node
+        tree._root = tree.insertNode(tree._root, p5); // create node
 
         // tree->setRoot(tree->deleteNode(tree->getRoot(), p1)); //delete node
         // tree->printTree(tree->getRoot(), "", true);
 
-        ft::MapIterator<int, float>  it(tree);
-        ft::MapIterator<int, float>  it2(tree);
-        ++it;
-        std::cout << "it -> " << (*it).first << std::endl;
-        ++it;
-        std::cout << "it -> " << (*it).first << std::endl;
-        --it;
-        std::cout << "it -> " << (*it).first << std::endl;
-        // ft::map<int, float> map1(it, it2);
-        // ft::map<int, float> map2(map1);
-
-        // std::cout << "size = " <<map1.size() << std::endl;
-        // std::cout << "------------------------- Tree : ---------------------------"<<std::endl;
-        // tree->printTree(tree->_root, "", true);
-        // std::cout << "------------------------- Map1 : ---------------------------"<<std::endl;
-        // map1.display();
-        // std::cout << "------------------------- Map2 : ---------------------------"<<std::endl;
-        // map2.display();
-
+        ft::MapIterator<int, float>  it(tree._root, tree._root);
+        ft::MapIterator<int, float>  it2(tree._root, tree._root);
+        it--;
+        it2++;
+        it2++;
+        it2++;
+        ft::map<int, float> map1(it, it2);
+        ft::MapIterator<int, float>  it3 = map1.begin();
+        ft::MapIterator<int, float>  it4 = map1.end();
+        std::cout << "begin is : "<< (*it3).first<<std::endl;
+        std::cout << "end is : "<< (*it4).first<<std::endl;
+        map1.display();
+        // while (1);
     }
 
     // std::cout << "------------------------- STD : ---------------------------"<<std::endl;
