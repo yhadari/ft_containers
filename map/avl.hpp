@@ -53,7 +53,7 @@ namespace ft{
       return N->height;
     }
 
-    int max(T a, T b) {
+    int max(int a, int b) {
       return (a > b) ? a : b;
     }
 

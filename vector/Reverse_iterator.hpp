@@ -17,7 +17,7 @@ namespace ft{
         typedef typename iterator_traits<Iterator>::pointer             pointer;
         typedef typename iterator_traits<Iterator>::reference           reference;
     
-        reverse_iterator(): _iterator(NULL){}
+        reverse_iterator(): _iterator(iterator_type()){}
         explicit reverse_iterator(iterator_type iterator) : _iterator(iterator){}
         reverse_iterator(reverse_iterator<Iterator> const& copy) : _iterator(copy._iterator){}
         template <class Iter>

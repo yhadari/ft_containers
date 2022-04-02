@@ -120,7 +120,7 @@ namespace ft{
         }
 
         mapped_type& operator[] (const key_type& k){
-            value_type val(k, 0);
+            value_type val(k, mapped_type());
             insert_pare it = insert(val);
             return (*it.first).second;
         }
@@ -138,6 +138,12 @@ namespace ft{
             }
             insert_pare ret(iterator(this->_tree._root, node), i);
             return ret;
+        }
+
+        iterator insert (iterator position, const value_type& val){
+            (void)position;
+            insert_pare i = insert(val);
+            return i.first;
         }
 
         void    display(){
