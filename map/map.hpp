@@ -85,14 +85,28 @@ namespace ft{
         }
 
         iterator end(){
-            avl_type Node;
-            return iterator(this->_tree._root, Node._ptr);
+            return iterator(this->_tree._root, NULL);
         }
 
         const_iterator end() const{
-            this->_tree._ptr = this->_tree.findMax(this->_tree._root);
-            const_iterator it = const_iterator(this->_tree._root, this->_tree._ptr);
-            return it;
+            avl_type Node;
+            return const_iterator(this->_tree._root, NULL);
+        }
+
+        reverse_iterator rbegin(){
+            return reverse_iterator(this->end());
+        }
+
+        const_reverse_iterator rbegin() const{
+            return const_reverse_iterator(this->end());
+        }
+
+        reverse_iterator rend(){
+            return reverse_iterator(this->begin());
+        }
+
+        const_reverse_iterator rend() const{
+            return const_reverse_iterator(this->begin());
         }
 
         void    display(){

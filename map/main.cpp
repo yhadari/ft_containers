@@ -30,33 +30,33 @@ int main()
         it2++;
         it2++;
         it2++;
-        ft::map<int, float> map1(it, it2);
-        ft::MapIterator<int, float>  it3 = map1.begin();
-        ft::MapIterator<int, float>  it4 = map1.end();
-        //--it4;
-        std::cout << "begin is : "<< (*it3).first<<std::endl;
-        std::cout << "end is : "<< (*it4).first<<std::endl;
-        map1.display();
+        it2++;
+        ft::map<int, float> map(it, it2);
+        ft::map<int, float>::reverse_iterator r1 = map.rend();
+        std::cout << "rbegin is : "<< (*--r1).first<<std::endl;
+        //map.display();
         // while (1);
     }
 
-    // std::cout << "------------------------- STD : ---------------------------"<<std::endl;
-    // {
-    //     std::pair<int, float> p1(1, 5.8);
-    //     std::pair<int, float> p2(2, 10);
-    //     std::pair<int, float> p3(3, 20);
+    std::cout << "------------------------- STD : ---------------------------"<<std::endl;
+    {
+        std::pair<int, float> p1(1, 5.8);
+        std::pair<int, float> p2(2, 10);
+        std::pair<int, float> p3(3, 20);
+        std::pair<int, float> p4(4, 30);
+        std::pair<int, float> p5(5, 40);
 
-    //     std::map<int, float> map;
-    //     map.insert(p1);
-    //     map.insert(p2);
-    //     map.insert(p3);
+        std::map<int, float> map;
+        map.insert(p1);
+        map.insert(p2);
+        map.insert(p3);
+        map.insert(p4);
+        map.insert(p5);
 
-    //     std::map<int, float>::iterator it = map.begin();
-    //     std::map<int, float>::iterator it2 = map.end();
-    //     std::cout << "Iterator = " <<(*it).first << std::endl;
-    //     std::cout << "Iterator = " <<(*it2).first << std::endl;
-    // }
+        std::map<int, float>::reverse_iterator r1 = map.rend();
+        std::cout << "rbegin is : "<< (*--r1).first<<std::endl;
+    }
 
-    // std::cout << "------------------------- END TESTs -----------------------"<<std::endl;
+    std::cout << "------------------------- END TESTs -----------------------"<<std::endl;
     return (0);                          
 }

@@ -59,6 +59,18 @@ namespace ft{
             --(*this);
             return temp;
         }
+        MapIterator    operator+(difference_type n) const{
+            MapIterator it(*this);
+            while (n--)
+                it++;
+            return it;
+        }
+        MapIterator    operator-(difference_type n) const{
+            MapIterator it(*this);
+            while (n--)
+                it--;
+            return it;
+        }
         bool                operator==(MapIterator const& it) const{
             return  this->_tree == it._tree;
         }
@@ -66,11 +78,6 @@ namespace ft{
             return  this->_tree != it._tree;
         }
         reference        operator*() const{
-            if (!this->_tree._ptr)
-            {
-                pair *data = this->_tree._pair_allocator.allocate(1);
-                return *data;
-            }
             return  *(this->_tree._ptr->data);
         }
         reference           operator*(value_type const& t){
