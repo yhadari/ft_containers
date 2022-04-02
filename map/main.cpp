@@ -13,29 +13,30 @@ int main()
         ft::pair<int, float> p4(4, 30);
         ft::pair<int, float> p5(5, 40);
 
-        ft::Avl<int, float, std::less<int>, std::allocator<ft::pair<const int, float> > > tree;
+        ft::map<int, float> map;
+        ft::pair<ft::map<int, float>::iterator, bool> i;
+        i = map.insert(p1);
+        std::cout << "i is: " << i.second << std::endl;
+        i = map.insert(p1);
+        std::cout << "i is: " << i.second << std::endl;
+        map.insert(p2);
+        map.insert(p3);
+        map.insert(p4);
+        map.insert(p5);
+        map[6] = 100;
 
-        tree._root = tree.insertNode(tree._root, p1); // create node
-        tree._root = tree.insertNode(tree._root, p2); // create node
-        tree._root = tree.insertNode(tree._root, p3); // create node
-        tree._root = tree.insertNode(tree._root, p4); // create node
-        tree._root = tree.insertNode(tree._root, p5); // create node
-
-        // tree->setRoot(tree->deleteNode(tree->getRoot(), p1)); //delete node
-        // tree->printTree(tree->getRoot(), "", true);
-
-        ft::MapIterator<int, float>  it(tree._root, tree._root);
-        ft::MapIterator<int, float>  it2(tree._root, tree._root);
-        it--;
-        it2++;
-        it2++;
-        it2++;
-        it2++;
-        ft::map<int, float> map(it, it2);
-        ft::map<int, float>::reverse_iterator r1 = map.rend();
-        std::cout << "rbegin is : "<< (*--r1).first<<std::endl;
-        //map.display();
-        // while (1);
+        ft::map<int, float>::iterator t1 = map.begin();
+        ft::map<int, float>::iterator t2 = map.end();
+        ft::map<int, float>::reverse_iterator r1 = map.rbegin();
+        ft::map<int, float>::reverse_iterator r2 = map.rend();
+        std::cout << "begin is : "<< (*t1).first<<std::endl;
+        std::cout << "end is : "<< (*--t2).first<<std::endl;
+        std::cout << "s is : "<< (*t2).second<<std::endl;
+        std::cout << "rbegin is : "<< (*r1).first<<std::endl;
+        std::cout << "rend is : "<< (*--r2).first<<std::endl;
+        std::cout << map.empty()<<std::endl;
+        std::cout << map.max_size()<<std::endl;
+        std::cout << map.size()<<std::endl;
     }
 
     std::cout << "------------------------- STD : ---------------------------"<<std::endl;
@@ -47,14 +48,29 @@ int main()
         std::pair<int, float> p5(5, 40);
 
         std::map<int, float> map;
-        map.insert(p1);
+        std::pair<std::map<int, float>::iterator, bool> i;
+        i = map.insert(p1);
+        std::cout << "i is: " << i.second << std::endl;
+        i = map.insert(p1);
+        std::cout << "i is: " << i.second << std::endl;
         map.insert(p2);
         map.insert(p3);
         map.insert(p4);
         map.insert(p5);
+        map[6] = 100;
 
-        std::map<int, float>::reverse_iterator r1 = map.rend();
-        std::cout << "rbegin is : "<< (*--r1).first<<std::endl;
+        std::map<int, float>::iterator t1 = map.begin();
+        std::map<int, float>::iterator t2 = map.end();
+        std::map<int, float>::reverse_iterator r1 = map.rbegin();
+        std::map<int, float>::reverse_iterator r2 = map.rend();
+        std::cout << "begin is : "<< (*t1).first<<std::endl;
+        std::cout << "end is : "<< (*--t2).first<<std::endl;
+        std::cout << "s is : "<< (*t2).second<<std::endl;
+        std::cout << "rbegin is : "<< (*r1).first<<std::endl;
+        std::cout << "rend is : "<< (*--r2).first<<std::endl;
+        std::cout << map.empty()<<std::endl;
+        std::cout << map.max_size()<<std::endl;
+        std::cout << map.size()<<std::endl;
     }
 
     std::cout << "------------------------- END TESTs -----------------------"<<std::endl;

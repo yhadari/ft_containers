@@ -18,7 +18,7 @@ namespace ft{
 
         typedef     Key                                                                             key_type;        
         typedef     T                                                                               mapped_type;        
-        typedef     typename ft::pair<const key_type, mapped_type>                                  value_type;        
+        typedef     typename ft::pair<const key_type, mapped_type>                                  value_type;
         typedef     Compare                                                                         key_compare;
         typedef     Alloc                                                                           allocator_type;
         typedef     typename allocator_type::reference                                              reference;
@@ -32,6 +32,8 @@ namespace ft{
         typedef     typename ft::iterator_traits<iterator>::difference_type                         difference_type;
         typedef     size_t                                                                          size_type;
         typedef     ft::Avl<key_type, mapped_type, key_compare, allocator_type>                     avl_type;
+        typedef     typename avl_type::node_type                                                    node_type;
+        typedef     typename ft::pair<iterator, bool>                                               insert_pare;
 
         private:
 
@@ -107,6 +109,35 @@ namespace ft{
 
         const_reverse_iterator rend() const{
             return const_reverse_iterator(this->begin());
+        }
+
+        bool empty() const{
+            return this->_size == 0;
+        }
+
+        size_type max_size() const{
+            return this->_tree._node_allocator.max_size();
+        }
+
+        mapped_type& operator[] (const key_type& k){
+            value_type val(k, 0);
+            insert_pare it = insert(val);
+            return (*it.first).second;
+        }
+
+        pair<iterator,bool> insert (const value_type& val){
+            bool i = true;
+            node_type *node = this->_tree.findNode(this->_tree._root, val.first);
+            if (node)
+                i = false;
+            else
+            {
+                this->_tree._root = this->_tree.insertNode(this->_tree._root, val);
+                node = this->_tree.findNode(this->_tree._root, val.first);
+                this->_size++;
+            }
+            insert_pare ret(iterator(this->_tree._root, node), i);
+            return ret;
         }
 
         void    display(){

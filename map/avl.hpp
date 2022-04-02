@@ -26,9 +26,6 @@ namespace ft{
     Avl(): _root(NULL), _ptr(NULL){
     }
 
-    // Avl(node_type* ptr, node_type* root): _ptr(ptr), _root(root){
-    // }
-
     ~Avl(){
       // std::cout <<"here"<<std::endl;
     }
@@ -274,6 +271,24 @@ namespace ft{
               return prec;
         }
         return prec;
+    }
+
+    node_type* findNode(node_type *root, Key key)
+    {
+      if (root)
+      {
+          if (root->data->first == key)
+              return (root);
+          else
+          {
+              node_type *found_node = findNode(root->left, key);
+              if (found_node == NULL)
+                  found_node = findNode(root->right, key);
+              return found_node;
+          }
+      }
+      else
+          return (NULL);
     }
 
     bool  operator==(Avl const& avl) const{
