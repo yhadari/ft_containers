@@ -8,6 +8,7 @@
 #include "mapIterator.hpp"
 #include "../vector/enable_if.hpp"
 #include "../vector/is_integral.hpp"
+#include "../vector/Vector.hpp"
 
 namespace ft{
 
@@ -158,7 +159,7 @@ namespace ft{
 
         void erase (iterator position){
             value_type val((*position).first, (*position).second);
-            this->_tree.deleteNode(this->_tree._root, val);
+            this->_tree._root = this->_tree.deleteNode(this->_tree._root, val);
             this->_size--;
         }
 
@@ -168,7 +169,14 @@ namespace ft{
         }
 
         void erase (iterator first, iterator last){
-            while (first != last)
+            // ft::vector<iterator> vector;
+            // while (first != last)
+            //     vector.push_back(first++);
+            // typename ft::vector<iterator>::iterator it = vector.begin();
+            // size_type size = vector.size();
+            // while (size--)
+            //     erase(*it++);
+            while (last != first)
                 erase(first++);
         }
 
@@ -179,6 +187,10 @@ namespace ft{
             this->_size = x._size;
             x._tree = temp;
             x._size = size;
+        }
+
+        void clear(){
+            erase(begin(), end());
         }
 
         iterator find (const key_type& k){

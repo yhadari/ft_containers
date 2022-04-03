@@ -15,7 +15,8 @@ int main ()
     bar['b']=22;
     bar['c']=33;
 
-    foo.swap(bar);
+    bar.swap(foo);
+    foo.clear();
 
     std::cout << "foo contains:\n";
     for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
@@ -23,7 +24,7 @@ int main ()
 
     std::cout << "bar contains:\n";
     for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-      std::cout << it->first << " => " << it->second << '\n';
+       std::cout << it->first << " => " << it->second << '\n';
 
     std::cout << foo.size() << "|" << bar.size() << std::endl;
   }
@@ -39,7 +40,8 @@ int main ()
     bar['b']=22;
     bar['c']=33;
 
-    foo.swap(bar);
+    bar.swap(foo);
+    foo.clear();
 
     std::cout << "foo contains:\n";
     for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
