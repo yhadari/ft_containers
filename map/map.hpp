@@ -146,6 +146,51 @@ namespace ft{
             return i.first;
         }
 
+        template <class InputIterator>
+        void insert (InputIterator first, InputIterator last){
+            while (first != last)
+            {
+                value_type val((*first).first, (*first).second);
+                insert(val);
+                first++;
+            }
+        }
+
+        void erase (iterator position){
+            value_type val((*position).first, (*position).second);
+            this->_tree.deleteNode(this->_tree._root, val);
+            this->_size--;
+        }
+
+        size_type erase (const key_type& k){
+            erase(find(k));
+            return 1;
+        }
+
+        void erase (iterator first, iterator last){
+            while (first != last)
+                erase(first++);
+        }
+
+        void swap (map& x){
+            avl_type temp = this->_tree;
+            size_type size  = this->_size;
+            this->_tree = x._tree;
+            this->_size = x._size;
+            x._tree = temp;
+            x._size = size;
+        }
+
+        iterator find (const key_type& k){
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            return iterator(this->_tree._root, node);
+        }
+
+        const_iterator find (const key_type& k) const{
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            return const_iterator(this->_tree._root, node);
+        }
+
         void    display(){
             this->_tree.printTree(this->_tree._root, "", true);
         }

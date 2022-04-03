@@ -6,37 +6,50 @@
 int main ()
 {
   {
-    ft::map<char,int> mymap;
+    ft::map<char,int> foo,bar;
 
-    mymap.insert ( ft::pair<char,int>('a',100) );
-    mymap.insert ( ft::pair<char,int>('z',200) );
+    foo['x']=100;
+    foo['y']=200;
 
-    ft::map<char,int>::iterator it = mymap.begin();
-    ft::map<char,int>::iterator it2;
-    it2 = mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
-    mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
-    std::cout << "it: " << (*it2).first << std::endl;
+    bar['a']=11;
+    bar['b']=22;
+    bar['c']=33;
 
-    std::cout << "mymap contains:\n";
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
+    foo.swap(bar);
+
+    std::cout << "foo contains:\n";
+    for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
       std::cout << it->first << " => " << it->second << '\n';
 
+    std::cout << "bar contains:\n";
+    for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+      std::cout << it->first << " => " << it->second << '\n';
+
+    std::cout << foo.size() << "|" << bar.size() << std::endl;
   }
+
   {
-      std::map<char,int> mymap;
+    std::cout << "-------------------------------------------------"<<std::endl;
+    std::map<char,int> foo,bar;
 
-    mymap.insert ( std::pair<char,int>('a',100) );
-    mymap.insert ( std::pair<char,int>('z',200) );
+    foo['x']=100;
+    foo['y']=200;
 
-    std::map<char,int>::iterator it = mymap.begin();
-    std::map<char,int>::iterator it2;
-    it2 = mymap.insert (it, std::pair<char,int>('b',300));  // max efficiency inserting
-    mymap.insert (it, std::pair<char,int>('c',400));  // no max efficiency inserting
-    std::cout << "it: " << (*it2).first << std::endl;
+    bar['a']=11;
+    bar['b']=22;
+    bar['c']=33;
 
-    std::cout << "mymap contains:\n";
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
+    foo.swap(bar);
+
+    std::cout << "foo contains:\n";
+    for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
       std::cout << it->first << " => " << it->second << '\n';
+
+    std::cout << "bar contains:\n";
+    for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+      std::cout << it->first << " => " << it->second << '\n';
+
+    std::cout << foo.size() << "|" << bar.size() << std::endl;
   }
-    return 0;
+  return 0;
 }
