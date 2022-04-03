@@ -273,7 +273,7 @@ namespace ft{
         return prec;
     }
 
-    node_type* findNode(node_type *root, Key key)
+    node_type* findNode(node_type *root, Key key) const
     {
       if (root)
       {

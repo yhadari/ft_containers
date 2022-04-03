@@ -210,8 +210,15 @@ namespace ft{
             return end();
         }
 
-        void    display(){
-            this->_tree.printTree(this->_tree._root, "", true);
+        size_type count(const key_type& k) const{
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            if (node)
+                return 1;
+            return 0;
+        }
+
+        key_compare key_comp() const{
+            return this->_tree._compare;
         }
     };
 }

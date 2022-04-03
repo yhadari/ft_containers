@@ -5,51 +5,42 @@
 
 int main ()
 {  
-  {
-    ft::map<char,int> foo,bar;
+    {
+      ft::map<char,int> mymap;
+      char c;
 
-    foo['x']=100;
-    foo['y']=200;
+      mymap ['a']=101;
+      mymap ['c']=202;
+      mymap ['f']=303;
 
-    bar['a']=11;
-    bar['b']=22;
-    bar['c']=33;
+      for (c='a'; c<'h'; c++)
+      {
+        std::cout << c;
+        if (mymap.count(c)>0)
+          std::cout << " is an element of mymap.\n";
+        else 
+          std::cout << " is not an element of mymap.\n";
+      }
+    }
 
-    foo.swap(bar);
-    bar.clear();
+    {
+      std::cout << "-------------------std-----------------\n";
+      std::map<char,int> mymap;
+      char c;
 
-    std::cout << "foo contains:\n";
-    for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-      std::cout << it->first << " => " << it->second << '\n';
+      mymap ['a']=101;
+      mymap ['c']=202;
+      mymap ['f']=303;
 
-    std::cout << "bar contains:\n";
-    for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-      std::cout << it->first << " => " << it->second << '\n';
+      for (c='a'; c<'h'; c++)
+      {
+        std::cout << c;
+        if (mymap.count(c)>0)
+          std::cout << " is an element of mymap.\n";
+        else 
+          std::cout << " is not an element of mymap.\n";
+      }
+    }
 
-  }
-
-  {
-    std::cout << "-----------------std---------------\n";
-    std::map<char,int> foo,bar;
-
-    foo['x']=100;
-    foo['y']=200;
-
-    bar['a']=11;
-    bar['b']=22;
-    bar['c']=33;
-
-    foo.swap(bar);
-    bar.clear();
-
-    std::cout << "foo contains:\n";
-    for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-      std::cout << it->first << " => " << it->second << '\n';
-
-    std::cout << "bar contains:\n";
-    for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-      std::cout << it->first << " => " << it->second << '\n';
-
-  }
   return 0;
 }
