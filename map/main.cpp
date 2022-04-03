@@ -4,7 +4,7 @@
 #include "map.hpp"
 
 int main ()
-{
+{  
   {
     ft::map<char,int> foo,bar;
 
@@ -15,8 +15,8 @@ int main ()
     bar['b']=22;
     bar['c']=33;
 
-    bar.swap(foo);
-    foo.clear();
+    foo.swap(bar);
+    bar.clear();
 
     std::cout << "foo contains:\n";
     for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
@@ -24,13 +24,12 @@ int main ()
 
     std::cout << "bar contains:\n";
     for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-       std::cout << it->first << " => " << it->second << '\n';
+      std::cout << it->first << " => " << it->second << '\n';
 
-    std::cout << foo.size() << "|" << bar.size() << std::endl;
   }
 
   {
-    std::cout << "-------------------------------------------------"<<std::endl;
+    std::cout << "-----------------std---------------\n";
     std::map<char,int> foo,bar;
 
     foo['x']=100;
@@ -40,8 +39,8 @@ int main ()
     bar['b']=22;
     bar['c']=33;
 
-    bar.swap(foo);
-    foo.clear();
+    foo.swap(bar);
+    bar.clear();
 
     std::cout << "foo contains:\n";
     for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
@@ -51,7 +50,6 @@ int main ()
     for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
       std::cout << it->first << " => " << it->second << '\n';
 
-    std::cout << foo.size() << "|" << bar.size() << std::endl;
   }
   return 0;
 }

@@ -115,14 +115,14 @@ namespace ft{
 
     node_type* findMin(node_type* root)
     {
-        while (root->left)
+        while (root && root->left)
           root = root->left;
         return root;
     }
 
     node_type* findMax(node_type* root)
     {
-        while (root->right)
+        while (root && root->right)
             root = root->right;
         return root;
     }

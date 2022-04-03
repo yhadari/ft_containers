@@ -164,20 +164,23 @@ namespace ft{
         }
 
         size_type erase (const key_type& k){
-            erase(find(k));
-            return 1;
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            if (node)
+            {
+                erase(find(k));
+                return 1;
+            }
+            return 0;
         }
 
         void erase (iterator first, iterator last){
-            // ft::vector<iterator> vector;
-            // while (first != last)
-            //     vector.push_back(first++);
-            // typename ft::vector<iterator>::iterator it = vector.begin();
-            // size_type size = vector.size();
-            // while (size--)
-            //     erase(*it++);
-            while (last != first)
-                erase(first++);
+            ft::vector<key_type> vector;
+            while (first != last)
+                vector.push_back((*first++).first);
+            typename ft::vector<key_type>::iterator it = vector.begin();
+            size_type size = vector.size();
+            while (size--)
+                erase(*it++);
         }
 
         void swap (map& x){
@@ -195,12 +198,16 @@ namespace ft{
 
         iterator find (const key_type& k){
             node_type *node = this->_tree.findNode(this->_tree._root, k);
-            return iterator(this->_tree._root, node);
+            if(node)
+                return iterator(this->_tree._root, node);
+            return end();
         }
 
         const_iterator find (const key_type& k) const{
             node_type *node = this->_tree.findNode(this->_tree._root, k);
-            return const_iterator(this->_tree._root, node);
+            if (node)
+                return const_iterator(this->_tree._root, node);
+            return end();
         }
 
         void    display(){
