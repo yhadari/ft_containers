@@ -4,42 +4,46 @@
 #include "map.hpp"
 
 int main ()
-{  
-    {
-      ft::map<char,int> mymap;
-      char c;
+{
+  {
+    ft::map<char,int> mymap;
+    ft::map<char,int>::iterator itlow,itup;
 
-      mymap ['a']=101;
-      mymap ['c']=202;
-      mymap ['f']=303;
+    mymap['a']=20;
+    mymap['b']=40;
+    mymap['c']=60;
+    mymap['d']=80;
+    mymap['e']=100;
 
-      for (c='a'; c<'h'; c++)
-      {
-        std::cout << c;
-        if (mymap.count(c)>0)
-          std::cout << " is an element of mymap.\n";
-        else 
-          std::cout << " is not an element of mymap.\n";
-      }
-    }
+    itlow=mymap.lower_bound ('e');  // itlow points to b
+    itup=mymap.upper_bound ('e');   // itup points to e (not d!)
 
-    {
-      std::cout << "-------------------std-----------------\n";
-      std::map<char,int> mymap;
-      char c;
+    mymap.erase(itlow,itup);        // erases [itlow,itup)
 
-      mymap ['a']=101;
-      mymap ['c']=202;
-      mymap ['f']=303;
+    // print content:
+    for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+      std::cout << it->first << " => " << it->second << '\n';
+  }
 
-      for (c='a'; c<'h'; c++)
-      {
-        std::cout << c;
-        if (mymap.count(c)>0)
-          std::cout << " is an element of mymap.\n";
-        else 
-          std::cout << " is not an element of mymap.\n";
-      }
+  {
+    std::cout << "--------------------------std------------------------\n";
+    std::map<char,int> mymap;
+    std::map<char,int>::iterator itlow,itup;
+
+    mymap['a']=20;
+    mymap['b']=40;
+    mymap['c']=60;
+    mymap['d']=80;
+    mymap['e']=100;
+
+    itlow=mymap.lower_bound ('e');  // itlow points to b
+    itup=mymap.upper_bound ('e');   // itup points to e (not d!)
+
+    mymap.erase(itlow,itup);        // erases [itlow,itup)
+
+    // print content:
+    for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+      std::cout << it->first << " => " << it->second << '\n';
     }
 
   return 0;

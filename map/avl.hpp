@@ -291,6 +291,28 @@ namespace ft{
           return (NULL);
     }
 
+    node_type* upperequalNode(node_type *root, Key key, bool i) const
+    {
+      if (root)
+      {
+        if ((root->data->first >= key && (!root->left || root->left->data->first < key) && i)
+        || (root->data->first > key && (!root->left || root->left->data->first <= key) && !i))
+              return (root);
+        else{
+          if (root->data->first <= key){
+            node_type *found_node = upperequalNode(root->right, key, i);
+            return found_node;
+          }
+          else{
+            node_type *found_node = upperequalNode(root->left, key, i);
+            return found_node;
+          }
+        }
+      }
+      else
+        return (NULL);
+    }
+
     bool  operator==(Avl const& avl) const{
       return ((this->_root == avl._root) && (this->_ptr == avl._ptr));
     }
