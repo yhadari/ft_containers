@@ -32,6 +32,10 @@ namespace ft{
         MapIterator(const MapIterator& copy){
             *this = copy;
         }
+        operator    MapIterator<const Key, T, Compare, Alloc>() const
+        {
+            return  MapIterator<const Key, T, Compare, Alloc>(this->_tree._root, this->_tree._ptr);
+        }
         MapIterator&     operator=(MapIterator const& it){
             if (*this == it)
 				return (*this);

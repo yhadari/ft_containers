@@ -37,7 +37,22 @@ namespace ft{
         typedef     typename ft::pair<iterator, bool>                                               insert_pare;
         typedef     typename ft::pair<iterator,iterator>                                            equal_range_pair;
         typedef     typename ft::pair<const_iterator,const_iterator>                                const_equal_range_pair;
-
+        typedef     class value_compare : public std::binary_function<value_type, value_type, bool>
+                    {
+                      friend class  map;
+                        protected:
+                          Compare comp;
+                          value_compare (Compare c) : comp(c){}
+                        public:
+                          typedef bool result_type;
+                          typedef value_type first_argument_type;
+                          typedef value_type second_argument_type;
+                          bool operator() (const value_type& x, const value_type& y) const
+                          {
+                            return comp(x.first, y.first);
+                          }
+                    }value_compare;
+                                                                                                                                                 
         private:
 
         avl_type        _tree;
@@ -55,10 +70,11 @@ namespace ft{
         const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()): _size(0){
             this->_tree._pair_allocator = alloc;
             this->_tree._compare = comp;
-            while (first != last){
-                this->_tree._root = this->_tree.insertNode(this->_tree._root, *first++);
-                this->_size++;
-            }
+            // while (first != last){
+            //     this->_tree._root = this->_tree.insertNode(this->_tree._root, *first++);
+            //     this->_size++;
+            // }
+            insert(first, last);
         }
 
         map(const map& x){
@@ -223,6 +239,10 @@ namespace ft{
             return this->_tree._compare;
         }
 
+        value_compare   value_comp() const{
+            return (value_compare(key_comp()));
+        }
+
         iterator    lower_bound(const key_type& k){
             node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 1);
             return iterator(this->_tree._root, node);
@@ -252,7 +272,19 @@ namespace ft{
             const_equal_range_pair ret(lower_bound(k), upper_bound(k));
             return ret;
         }
+
+        allocator_type  get_allocator() const{
+            return (Alloc(this->_tree._pair_allocator));
+        }
     };
+
+    // template <class Key, class T, class Compare, class Alloc>
+    //     bool operator==(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ){
+    //         if (lhs.size() == rhs.size())
+    //             return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    //         else
+    //             return false;
+    //     }
 }
 
 #endif
