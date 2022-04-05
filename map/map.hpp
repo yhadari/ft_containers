@@ -35,6 +35,8 @@ namespace ft{
         typedef     ft::Avl<key_type, mapped_type, key_compare, allocator_type>                     avl_type;
         typedef     typename avl_type::node_type                                                    node_type;
         typedef     typename ft::pair<iterator, bool>                                               insert_pare;
+        typedef     typename ft::pair<iterator,iterator>                                            equal_range_pair;
+        typedef     typename ft::pair<const_iterator,const_iterator>                                const_equal_range_pair;
 
         private:
 
@@ -239,6 +241,16 @@ namespace ft{
         const_iterator  upper_bound(const key_type& k) const{
             node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 0);
             return const_iterator(this->_tree._root, node);
+        }
+
+        pair<iterator,iterator> equal_range(const key_type& k){
+            equal_range_pair ret(lower_bound(k), upper_bound(k));
+            return ret;
+        }
+
+        pair<const_iterator,const_iterator> equal_range(const key_type& k) const{
+            const_equal_range_pair ret(lower_bound(k), upper_bound(k));
+            return ret;
         }
     };
 }
