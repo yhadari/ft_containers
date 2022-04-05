@@ -113,14 +113,14 @@ namespace ft{
       return Height(N->left) - Height(N->right);
     }
 
-    node_type* findMin(node_type* root)
+    node_type* findMin(node_type* root) const
     {
         while (root && root->left)
           root = root->left;
         return root;
     }
 
-    node_type* findMax(node_type* root)
+    node_type* findMax(node_type* root) const
     {
         while (root && root->right)
             root = root->right;

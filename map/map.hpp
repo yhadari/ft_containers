@@ -92,13 +92,11 @@ namespace ft{
         }
         
         iterator    begin(){
-            this->_tree._ptr = this->_tree.findMin(this->_tree._root);
-            return iterator(this->_tree._root, this->_tree._ptr);
+            return iterator(this->_tree._root, this->_tree.findMin(this->_tree._root));
         }
 
         const_iterator  begin() const{
-            this->_tree._ptr = this->_tree.findMin(this->_tree._root);
-            return const_iterator(this->_tree._root, this->_tree._ptr);
+            return const_iterator(this->_tree._root, this->_tree.findMin(this->_tree._root));
         }
 
         iterator    end(){
@@ -278,13 +276,37 @@ namespace ft{
         }
     };
 
-    // template <class Key, class T, class Compare, class Alloc>
-    //     bool operator==(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ){
-    //         if (lhs.size() == rhs.size())
-    //             return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
-    //         else
-    //             return false;
-    //     }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator==(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            if (lhs.size() == rhs.size())
+                return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+            else
+                return false;
+        }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator!=(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            return !operator==(lhs, rhs);
+        }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator<(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+        }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator<=(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            if (operator==(lhs, rhs) || operator<(lhs, rhs))
+                return true;
+            return false;
+        }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator>(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            return (rhs < lhs);
+        }
+    template <class Key, class T, class Compare, class Alloc>
+        bool operator>= (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs){
+            if (operator==(lhs, rhs) || operator>(lhs, rhs))
+                return true;
+            return false;
+        }
 }
 
 #endif
