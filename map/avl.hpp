@@ -273,23 +273,34 @@ namespace ft{
         return prec;
     }
 
-    node_type* findNode(node_type *root, Key key) const
-    {
-      if (root)
-      {
-          if (root->data->first == key)
-              return (root);
-          else
-          {
-              node_type *found_node = findNode(root->left, key);
-              if (found_node == NULL)
-                  found_node = findNode(root->right, key);
-              return found_node;
-          }
-      }
-      else
-          return (NULL);
-    }
+	  node_type*  findNode(node_type *root, const Key &key) const
+		{
+			if (!root)
+				return NULL;
+			if (key > root->data->first)
+				return (findNode(root->right, key));
+			else if (key < root->data->first)
+				return (findNode(root->left, key));
+			return root;
+		}
+
+		// node_type*  findNodeSide(node_type *root, const Key &key) const
+		// {
+		// 	if (root)
+		// 	{
+		// 		if (root->data->first == key)
+		// 			return (root);
+		// 		else
+		// 		{
+		// 			node_type *found_node = findNode(root->left, key);
+		// 			if (found_node == NULL)
+		// 				found_node = findNode(root->right, key);
+		// 			return found_node;
+		// 		}
+		// 	}
+		// 	else
+		// 		return (NULL);
+		// }
 
     node_type* upperequalNode(node_type *root, Key key, bool i) const
     {

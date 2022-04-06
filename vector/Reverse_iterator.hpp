@@ -30,7 +30,8 @@ namespace ft{
             return this->_iterator;
         }
         reference           operator*() const{
-            return *(base()-1);
+            iterator_type temp = base();
+            return *(--temp);
         }
         reverse_iterator    operator+(difference_type n) const{
             return reverse_iterator(base()-n);
@@ -39,7 +40,9 @@ namespace ft{
             return reverse_iterator(base()+n);
         }
         reverse_iterator&   operator++(){
-            return *this = reverse_iterator(base()-1);
+            //return *this = reverse_iterator(base()-1);
+            --this->_iterator;
+            return (*this);
         }
         reverse_iterator    operator++(int){
             reverse_iterator temp = *this;
@@ -47,7 +50,9 @@ namespace ft{
             return temp;
         }
         reverse_iterator&   operator--(){
-            return *this = reverse_iterator(base()+1);
+            //return *this = reverse_iterator(base()+1);
+            ++this->_iterator;
+            return (*this);
         }
         reverse_iterator    operator--(int){
             reverse_iterator temp = *this;

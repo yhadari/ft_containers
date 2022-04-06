@@ -70,11 +70,10 @@ namespace ft{
         const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = InputIterator()): _size(0){
             this->_tree._pair_allocator = alloc;
             this->_tree._compare = comp;
-            // while (first != last){
-            //     this->_tree._root = this->_tree.insertNode(this->_tree._root, *first++);
-            //     this->_size++;
-            // }
-            insert(first, last);
+             while (first != last){
+                 this->_tree._root = this->_tree.insertNode(this->_tree._root, *first++);
+                 this->_size++;
+             }
         }
 
         map(const map& x){
