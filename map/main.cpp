@@ -1899,17 +1899,17 @@ void testOperations()
         }
         std::map<int, std::string> const c_m(m.begin(), m.end());
         ft::map<int, std::string> const c_ft_m(ft_m.begin(), ft_m.end());
-        cond = (cond && (m.lower_bound(15)->first == ft_m.lower_bound(15)->first));
-        cond = (cond && (m.lower_bound(65)->first == ft_m.lower_bound(65)->first));
-        cond = (cond && (m.lower_bound(63)->first == ft_m.lower_bound(63)->first));
-        cond = (cond && (m.lower_bound(120)->first == ft_m.lower_bound(120)->first));
-        cond = (cond && (m.lower_bound(70)->first == ft_m.lower_bound(70)->first));
+        //cond = (cond && (m.lower_bound(15)->first == ft_m.lower_bound(15)->first));
+         //cond = (cond && (m.lower_bound(65)->first == ft_m.lower_bound(65)->first));
+         cond = (cond && (m.lower_bound(63)->first == ft_m.lower_bound(63)->first));
+        // cond = (cond && (m.lower_bound(120)->first == ft_m.lower_bound(120)->first));
+        // cond = (cond && (m.lower_bound(70)->first == ft_m.lower_bound(70)->first));
 
-        cond = (cond && (c_m.lower_bound(15)->first == c_ft_m.lower_bound(15)->first));
-        cond = (cond && (c_m.lower_bound(65)->first == c_ft_m.lower_bound(65)->first));
-        cond = (cond && (c_m.lower_bound(63)->first == c_ft_m.lower_bound(63)->first));
-        cond = (cond && (c_m.lower_bound(120)->first == c_ft_m.lower_bound(120)->first));
-        cond = (cond && (c_m.lower_bound(70)->first == c_ft_m.lower_bound(70)->first));
+        // cond = (cond && (c_m.lower_bound(15)->first == c_ft_m.lower_bound(15)->first));
+        // cond = (cond && (c_m.lower_bound(65)->first == c_ft_m.lower_bound(65)->first));
+        // cond = (cond && (c_m.lower_bound(63)->first == c_ft_m.lower_bound(63)->first));
+        // cond = (cond && (c_m.lower_bound(120)->first == c_ft_m.lower_bound(120)->first));
+        // cond = (cond && (c_m.lower_bound(70)->first == c_ft_m.lower_bound(70)->first));
         EQUAL(cond);
     }
     std::cout << "\t\033[1;37m[-------------------- [" << std::setw(40) << std::left << " upper_bound method "
@@ -2220,23 +2220,23 @@ int main()
     std::cout << RED << "--------------------------------------------------------------------------------------------------------" << RESET << std::endl;
     signal(SIGALRM, alarm_handler);
 
-    std::cout << YELLOW << "Testing Iterators;" << RESET << std::endl;
-    TEST_CASE(iterator_tests);
-    TEST_CASE(const_iterator_tests);
-    TEST_CASE(reverse_iterator_tests);
-    std::cout << std::endl;
+    // std::cout << YELLOW << "Testing Iterators;" << RESET << std::endl;
+    // TEST_CASE(iterator_tests);
+    // TEST_CASE(const_iterator_tests);
+    // TEST_CASE(reverse_iterator_tests);
+    // std::cout << std::endl;
 
-    std::cout << YELLOW << "Testing Constructors;" << RESET << std::endl;
-    TEST_CASE(testConstructors)
-    std::cout << std::endl; 
+    // std::cout << YELLOW << "Testing Constructors;" << RESET << std::endl;
+    // TEST_CASE(testConstructors)
+    // std::cout << std::endl; 
 
-    std::cout << YELLOW << "Testing Modifiers Methods;" << RESET << std::endl;
-    TEST_CASE(testModifiers)
-    std::cout << std::endl;
+    // std::cout << YELLOW << "Testing Modifiers Methods;" << RESET << std::endl;
+    // TEST_CASE(testModifiers)
+    // std::cout << std::endl;
 
-    std::cout << YELLOW << "Testing Capacity Methods;" << RESET << std::endl;
-    TEST_CASE(testCapacityMethods)
-    std::cout << std::endl;
+    // std::cout << YELLOW << "Testing Capacity Methods;" << RESET << std::endl;
+    // TEST_CASE(testCapacityMethods)
+    // std::cout << std::endl;
 
     std::cout << YELLOW << "Testing Operations Methods;" << RESET << std::endl;
     TEST_CASE(testOperations)

@@ -27,12 +27,12 @@ namespace ft{
     }
 
     ~Avl(){
-      // std::cout <<"here"<<std::endl;
     }
 
-    Avl&  operator=(const Avl &avl){
-      this->_root = avl._root;
-      this->_ptr = avl._ptr;
+    Avl &operator=(const Avl &tree)
+		{
+			this->_root = tree._root;
+			this->_ptr = tree._ptr;
 			return (*this);
 		}
 
@@ -227,7 +227,7 @@ namespace ft{
       }
     }
 
-    node_type* nextNode(node_type* root, node_type* x)
+    node_type* nextNode(node_type* root, node_type* x) const
     {
         node_type* succ = NULL;
         if (!root)
@@ -250,7 +250,7 @@ namespace ft{
         return succ;
     }
 
-    node_type*  previousNode(node_type* root, node_type* x)
+    node_type*  previousNode(node_type* root, node_type* x) const
     {
         node_type* prec = NULL;
         if (!root)
@@ -277,51 +277,32 @@ namespace ft{
 		{
 			if (!root)
 				return NULL;
-			if (key > root->data->first)
+			if (this->_compare(root->data->first, key))
 				return (findNode(root->right, key));
-			else if (key < root->data->first)
+			else if (this->_compare(key, root->data->first))
 				return (findNode(root->left, key));
 			return root;
 		}
 
-		// node_type*  findNodeSide(node_type *root, const Key &key) const
-		// {
-		// 	if (root)
-		// 	{
-		// 		if (root->data->first == key)
-		// 			return (root);
-		// 		else
-		// 		{
-		// 			node_type *found_node = findNode(root->left, key);
-		// 			if (found_node == NULL)
-		// 				found_node = findNode(root->right, key);
-		// 			return found_node;
-		// 		}
-		// 	}
-		// 	else
-		// 		return (NULL);
-		// }
-
-    node_type* upperequalNode(node_type *root, Key key, bool i) const
+    node_type* upperNode(node_type *root, Key key) const
     {
       if (root)
       {
-        if ((root->data->first >= key && (!root->left || root->left->data->first < key) && i)
-        || (root->data->first > key && (!root->left || root->left->data->first <= key) && !i))
-              return (root);
+        if(root->data->first > key && (!root->left || findMax(root->left)->data->first <= key))
+          return root;
         else{
           if (root->data->first <= key){
-            node_type *found_node = upperequalNode(root->right, key, i);
+            node_type *found_node = upperNode(root->right, key);
             return found_node;
           }
           else{
-            node_type *found_node = upperequalNode(root->left, key, i);
+            node_type *found_node = upperNode(root->left, key);
             return found_node;
           }
         }
       }
       else
-        return (NULL);
+        return NULL;
     }
 
     bool  operator==(Avl const& avl) const{

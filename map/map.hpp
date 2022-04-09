@@ -81,7 +81,8 @@ namespace ft{
         }
 
         map&    operator=(const map& m){
-            this->_tree = m._tree;
+            clear();
+            insert(m.begin(), m.end());
             this->_size = m._size;
             return *this;
         }
@@ -241,22 +242,26 @@ namespace ft{
         }
 
         iterator    lower_bound(const key_type& k){
-            node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 1);
-            return iterator(this->_tree._root, node);
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            if (node)
+                return iterator(this->_tree._root, node);
+            return upper_bound(k);
         }
 
         const_iterator lower_bound(const key_type& k) const{
-            node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 1);
-            return const_iterator(this->_tree._root, node);
+            node_type *node = this->_tree.findNode(this->_tree._root, k);
+            if (node)
+                return const_iterator(this->_tree._root, node);
+            return upper_bound(k);
         }
 
         iterator    upper_bound(const key_type& k){
-            node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 0);
+            node_type *node = this->_tree.upperNode(this->_tree._root, k);
             return iterator(this->_tree._root, node);
         }
 
         const_iterator  upper_bound(const key_type& k) const{
-            node_type *node = this->_tree.upperequalNode(this->_tree._root, k, 0);
+            node_type *node = this->_tree.upperNode(this->_tree._root, k);
             return const_iterator(this->_tree._root, node);
         }
 
