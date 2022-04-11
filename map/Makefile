@@ -1,10 +1,10 @@
-NAME = bst
+NAME = map
 
 all : $(NAME)
 
 $(NAME) : main.cpp
 	@clear
-	@c++ -g -Wall -Wextra -Werror -std=c++98 main.cpp -o $(NAME)
+	@c++ -Wall -Wextra -Werror -std=c++98 main.cpp -o $(NAME)
 
 clean:
 	@ rm -rf *.gch

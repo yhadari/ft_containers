@@ -29,14 +29,14 @@ namespace ft{
     ~Avl(){
     }
 
-    Avl &operator=(const Avl &tree)
+    Avl&          operator=(const Avl &tree)
 		{
 			this->_root = tree._root;
 			this->_ptr = tree._ptr;
 			return (*this);
 		}
 
-    node_type *NewNode(const value_type& val){
+    node_type*    NewNode(const value_type& val){
       node_type *node;
       node = this->_node_allocator.allocate(1);
       node->data = this->_pair_allocator.allocate(1);
@@ -47,17 +47,17 @@ namespace ft{
       return node;
     }
 
-    int Height(node_type *N) {
+    int           Height(node_type *N) {
       if (N == NULL)
         return 0;
       return N->height;
     }
 
-    int max(int a, int b) {
+    int           max(int a, int b) {
       return (a > b) ? a : b;
     }
 
-    node_type  *rightRotate(node_type *y) {
+    node_type*    rightRotate(node_type *y) {
       node_type *x = y->left;
       node_type *T2 = x->right;
       x->right = y;
@@ -67,7 +67,7 @@ namespace ft{
       return x;
     }
 
-    node_type  *leftRotate(node_type *x) {
+    node_type*    leftRotate(node_type *x) {
       node_type *y = x->right;
       node_type *T2 = y->left;
       y->left = x;
@@ -77,58 +77,27 @@ namespace ft{
       return y;
     }
 
-    void  inorder(node_type *root)
-    {
-      if (root)
-      {
-        inorder(root->left);
-        std::cout << root->data->first << " ";
-        inorder(root->right);
-      }
-    }
-
-    void  preorder(node_type *root)
-    {
-      if (root)
-      {
-        std::cout << root->data->first << " ";
-        preorder(root->left);
-        preorder(root->right);
-      }
-    }
-
-    void  postorder(node_type *root)
-    {
-      if (root)
-      {
-        postorder(root->left);
-        postorder(root->right);
-        std::cout << root->data->first << " ";
-      }
-    }
-
-    int getBalanceFactor(node_type *N){
+    int           getBalanceFactor(node_type *N){
       if (N == NULL)
         return 0;
       return Height(N->left) - Height(N->right);
     }
 
-    node_type* findMin(node_type* root) const
+    node_type*    findMin(node_type* root) const
     {
         while (root && root->left)
           root = root->left;
         return root;
     }
 
-    node_type* findMax(node_type* root) const
+    node_type*    findMax(node_type* root) const
     {
         while (root && root->right)
             root = root->right;
         return root;
     }
 
-    node_type  *insertNode(node_type *root, const value_type &val) {
-      // Find the correct postion and insert the node
+    node_type*    insertNode(node_type *root, const value_type &val) {
       if (root == NULL)
         return (NewNode(val));
       if (this->_compare(val.first, root->data->first))
@@ -138,22 +107,26 @@ namespace ft{
       else
         return root;
 
-      // Update the balance factor of each node and
-      // balance the tree
       root->height = 1 + max(Height(root->left), Height(root->right));
       int balanceFactor = getBalanceFactor(root);
-      if (balanceFactor > 1) {
-        if (this->_compare(val.first, root->left->data->first)) {
+
+      if (balanceFactor > 1)
+      {
+        if (this->_compare(val.first, root->left->data->first))
           return rightRotate(root);
-        } else if (this->_compare(root->left->data->first, val.first)) {
+        else if (this->_compare(root->left->data->first, val.first))
+        {
           root->left = leftRotate(root->left);
           return rightRotate(root);
         }
       }
-      if (balanceFactor < -1) {
-        if (this->_compare(root->right->data->first, val.first)) {
+
+      if (balanceFactor < -1)
+      {
+        if (this->_compare(root->right->data->first, val.first))
           return leftRotate(root);
-        } else if (this->_compare(val.first, root->right->data->first)) {
+        else if (this->_compare(val.first, root->right->data->first))
+        {
           root->right = rightRotate(root->right);
           return leftRotate(root);
         }
@@ -161,49 +134,64 @@ namespace ft{
       return root;
     }
 
-    node_type *deleteNode(node_type *root, const value_type &val) {
-      // Find the node and delete it
+    node_type*    deleteNode(node_type *root, const value_type &val) {
       if (root == NULL)
         return root;
       if (this->_compare(val.first, root->data->first))
         root->left = deleteNode(root->left, val);
       else if (this->_compare(root->data->first, val.first))
         root->right = deleteNode(root->right, val);
-      else {
-        if ((root->left == NULL) || (root->right == NULL)) {
+      else
+      {
+        if ((root->left == NULL) || (root->right == NULL))
+        {
           node_type *temp = root->left ? root->left : root->right;
-          if (temp == NULL) {
+          if (temp == NULL)
+          {
             temp = root;
             root = NULL;
-          } else
-            *root = *temp;
-          this->_node_allocator.destroy(temp);
-        } else {
+          }
+          else{
+            root->left = temp->left;
+            root->right = temp->right;
+            root->height = temp->height;
+            this->_pair_allocator.destroy(root->data);
+            this->_pair_allocator.construct(root->data, *temp->data);
+          }
+          this->_pair_allocator.deallocate(temp->data, 1);
+          this->_node_allocator.deallocate(temp, 1);
+        } 
+        else 
+        {
           node_type *temp = findMin(root->right);
-          root->data = temp->data;
+          this->_pair_allocator.destroy(root->data);
+          this->_pair_allocator.construct(root->data, *temp->data);
           root->right = deleteNode(root->right, *temp->data);
         }
       }
-
       if (root == NULL)
         return root;
 
-      // Update the balance factor of each node and
-      // balance the tree
       root->height = 1 + max(Height(root->left), Height(root->right));
       int balanceFactor = getBalanceFactor(root);
-      if (balanceFactor > 1) {
-        if (getBalanceFactor(root->left) >= 0) {
+
+      if (balanceFactor > 1)
+      {
+        if (getBalanceFactor(root->left) >= 0)
           return rightRotate(root);
-        } else {
+        else 
+        {
           root->left = leftRotate(root->left);
           return rightRotate(root);
         }
       }
-      if (balanceFactor < -1) {
-        if (getBalanceFactor(root->right) <= 0) {
+
+      if (balanceFactor < -1)
+      {
+        if (getBalanceFactor(root->right) <= 0)
           return leftRotate(root);
-        } else {
+        else
+        {
           root->right = rightRotate(root->right);
           return leftRotate(root);
         }
@@ -211,23 +199,7 @@ namespace ft{
       return root;
     }
 
-    void printTree(node_type *root, std::string indent, bool last) {
-      if (root != nullptr) {
-        std::cout << indent;
-        if (last) {
-          std::cout << "R----";
-          indent += "   ";
-        } else {
-          std::cout << "L----";
-          indent += "|  ";
-        }
-        std::cout << root->data->first << std::endl;
-        printTree(root->left, indent, false);
-        printTree(root->right, indent, true);
-      }
-    }
-
-    node_type* nextNode(node_type* root, node_type* x) const
+    node_type*    nextNode(node_type* root, node_type* x) const
     {
         node_type* succ = NULL;
         if (!root)
@@ -250,7 +222,7 @@ namespace ft{
         return succ;
     }
 
-    node_type*  previousNode(node_type* root, node_type* x) const
+    node_type*    previousNode(node_type* root, node_type* x) const
     {
         node_type* prec = NULL;
         if (!root)
@@ -273,7 +245,7 @@ namespace ft{
         return prec;
     }
 
-	  node_type*  findNode(node_type *root, const Key &key) const
+	  node_type*    findNode(node_type *root, const Key &key) const
 		{
 			if (!root)
 				return NULL;
@@ -284,7 +256,7 @@ namespace ft{
 			return root;
 		}
 
-    node_type* upperNode(node_type *root, Key key) const
+    node_type*    upperNode(node_type *root, Key key) const
     {
       if (root)
       {
@@ -305,11 +277,27 @@ namespace ft{
         return NULL;
     }
 
-    bool  operator==(Avl const& avl) const{
+    void          printTree(node_type *root, std::string indent, bool last) {
+      if (root != nullptr) {
+        std::cout << indent;
+        if (last) {
+          std::cout << "R----";
+          indent += "   ";
+        } else {
+          std::cout << "L----";
+          indent += "|  ";
+        }
+        std::cout << root->data->first << std::endl;
+        printTree(root->left, indent, false);
+        printTree(root->right, indent, true);
+      }
+    }
+
+    bool          operator==(Avl const& avl) const{
       return ((this->_root == avl._root) && (this->_ptr == avl._ptr));
     }
 
-    bool  operator!=(Avl const& avl) const{
+    bool          operator!=(Avl const& avl) const{
       return ((this->_root != avl._root) || (this->_ptr != avl._ptr));
     }
 

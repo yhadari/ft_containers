@@ -1346,8 +1346,8 @@ void testModifiers()
 
         cond = m.size() == ft_m.size() && comparemaps(m.begin(), m.end(), ft_m.begin(), ft_m.end());
 
-        it = m.find('b');
-        ft_it = ft_m.find('b');
+        it = m.find('a');
+        ft_it = ft_m.find('a');
 
         cond = cond && (it->first == ft_it->first) && (it->second == ft_it->second);
         m.erase(it);       // erasing by iterator
@@ -1899,17 +1899,17 @@ void testOperations()
         }
         std::map<int, std::string> const c_m(m.begin(), m.end());
         ft::map<int, std::string> const c_ft_m(ft_m.begin(), ft_m.end());
-        //cond = (cond && (m.lower_bound(15)->first == ft_m.lower_bound(15)->first));
-         //cond = (cond && (m.lower_bound(65)->first == ft_m.lower_bound(65)->first));
-         cond = (cond && (m.lower_bound(63)->first == ft_m.lower_bound(63)->first));
-        // cond = (cond && (m.lower_bound(120)->first == ft_m.lower_bound(120)->first));
-        // cond = (cond && (m.lower_bound(70)->first == ft_m.lower_bound(70)->first));
+        cond = (cond && (m.lower_bound(15)->first == ft_m.lower_bound(15)->first));
+        cond = (cond && (m.lower_bound(65)->first == ft_m.lower_bound(65)->first));
+        cond = (cond && (m.lower_bound(63)->first == ft_m.lower_bound(63)->first));
+        cond = (cond && (m.lower_bound(120)->first == ft_m.lower_bound(120)->first));
+        cond = (cond && (m.lower_bound(70)->first == ft_m.lower_bound(70)->first));
 
-        // cond = (cond && (c_m.lower_bound(15)->first == c_ft_m.lower_bound(15)->first));
-        // cond = (cond && (c_m.lower_bound(65)->first == c_ft_m.lower_bound(65)->first));
-        // cond = (cond && (c_m.lower_bound(63)->first == c_ft_m.lower_bound(63)->first));
-        // cond = (cond && (c_m.lower_bound(120)->first == c_ft_m.lower_bound(120)->first));
-        // cond = (cond && (c_m.lower_bound(70)->first == c_ft_m.lower_bound(70)->first));
+        cond = (cond && (c_m.lower_bound(15)->first == c_ft_m.lower_bound(15)->first));
+        cond = (cond && (c_m.lower_bound(65)->first == c_ft_m.lower_bound(65)->first));
+        cond = (cond && (c_m.lower_bound(63)->first == c_ft_m.lower_bound(63)->first));
+        cond = (cond && (c_m.lower_bound(120)->first == c_ft_m.lower_bound(120)->first));
+        cond = (cond && (c_m.lower_bound(70)->first == c_ft_m.lower_bound(70)->first));
         EQUAL(cond);
     }
     std::cout << "\t\033[1;37m[-------------------- [" << std::setw(40) << std::left << " upper_bound method "
@@ -2263,5 +2263,6 @@ int main()
     TEST_CASE(testNonMemberSwap);
     std::cout << std::endl; 
     
+    system("leaks map");
     return 0;
 }

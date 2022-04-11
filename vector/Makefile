@@ -1,4 +1,4 @@
-NAME = test
+NAME = vector
 
 all : $(NAME)
 

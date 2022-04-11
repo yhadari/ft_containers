@@ -330,5 +330,6 @@ int main()
     std::cout << YELLOW << "Testing relational operators;" << RESET << std::endl;
     TEST_CASE(testRelationalOperators);
 
+	system("leaks stack");
 	return 0;
 }
